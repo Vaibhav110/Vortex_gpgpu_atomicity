@@ -50,6 +50,9 @@ void AluUnit::tick() {
 			case AluType::XOR:
 			case AluType::AND:
 			case AluType::OR:
+			// case AluType::DOT8:
+			// 	delay = 2;
+			// 	break;
 			case AluType::CZERO:
 				delay = 2;
 				break;

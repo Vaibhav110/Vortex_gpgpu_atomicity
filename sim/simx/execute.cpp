@@ -174,6 +174,23 @@ instr_trace_t* Emulator::execute(const Instr &instr, uint32_t wid) {
       auto aluArgs = std::get<IntrAluArgs>(instrArgs);
       Word imm = sext<Word>(aluArgs.imm, 32);
       switch (alu_type) {
+      // case AluType::DOT8: {
+      //   for (uint32_t t = thread_start; t < num_threads; ++t) {
+      //     if (!warp.tmask.test(t))
+      //       continue;
+      //     uint32_t packedA = rs1_data[t].u;
+      //     uint32_t packedB = rs2_data[t].u;
+      //     int32_t sum = 0;
+      //     // Unpack four int8 values from each 32-bit register
+      //     for (int i = 0; i < 4; ++i) {
+      //       int8_t a_byte = static_cast<int8_t>((packedA >> (8 * i)) & 0xFF);
+      //       int8_t b_byte = static_cast<int8_t>((packedB >> (8 * i)) & 0xFF);
+      //       sum += a_byte * b_byte;
+      //     }
+      //     DP(3, "*** DOT8[" << t << "]: a=0x" << std::hex << packedA << ", b=0x" << packedB << ", c=0x" << sum << std::dec);
+      //     rd_data[t].i = sum;
+      //   }
+      // } break;
       case AluType::LUI: {
         for (uint32_t t = thread_start; t < num_threads; ++t) {
           if (!warp.tmask.test(t))

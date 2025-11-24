@@ -433,6 +433,11 @@
 `define LATENCY_FNCP 2
 `endif
 
+// DOT8 Latency
+`ifndef LATENCY_DOT8
+`define LATENCY_DOT8 2
+`endif
+
 // FMA Latency
 `ifndef LATENCY_FMA
 `ifdef FPU_DPI

@@ -14,6 +14,7 @@
 `include "VX_define.vh"
 
 module VX_lsu_slice import VX_gpu_pkg::*; #(
+    parameter CORE_ID = 0,
     parameter `STRING INSTANCE_ID = ""
 ) (
     `SCOPE_IO_DECL
@@ -36,6 +37,16 @@ module VX_lsu_slice import VX_gpu_pkg::*; #(
     localparam REQ_ASHIFT   = `CLOG2(LSU_WORD_SIZE);
     localparam MEM_ASHIFT   = `CLOG2(`MEM_BLOCK_SIZE);
     localparam MEM_ADDRW    = `MEM_ADDR_WIDTH - MEM_ASHIFT;
+
+    // Define Global Thread ID widths and placeholders
+    localparam GTID_WIDTH    = VX_gpu_pkg::GTID_WIDTH;    // Total width for Global Thread ID
+    localparam CORE_ID_W     = VX_gpu_pkg::NC_WIDTH;    // Width for Core ID (SM ID)
+    localparam WARP_ID_W     = VX_gpu_pkg::NW_WIDTH;    // Width for Warp ID
+    localparam LANE_IDX_W    = VX_gpu_pkg::NT_WIDTH;    // Width for Thread Index (Lane ID)
+
+    // Placeholder: Core ID must be parameterized or defined by the system/hierarchy
+    // We assume a `CORE_ID` macro exists that provides the SM ID for this slice.
+    // localparam CORE_ID = CORE_ID_W'(`CORE_ID); // TODO: where to get this??
 
     // tag_id = wid + PC + wb + rd + op_type + align + pid + pkt_addr + fence
     localparam TAG_ID_WIDTH = NW_WIDTH + PC_BITS + 1 + NUM_REGS_BITS + INST_LSU_BITS + (NUM_LANES * REQ_ASHIFT) + PID_WIDTH + LSUQ_SIZEW + 1;
@@ -72,6 +83,22 @@ module VX_lsu_slice import VX_gpu_pkg::*; #(
         wire [MEM_ADDRW-1:0] io_addr_end = MEM_ADDRW'(`XLEN'(`IO_END_ADDR) >> MEM_ASHIFT);
         assign mem_req_flags[i][MEM_REQ_FLAG_FLUSH] = req_is_fence;
         assign mem_req_flags[i][MEM_REQ_FLAG_IO] = (block_addr >= io_addr_start) && (block_addr < io_addr_end);
+
+    // extra information for amo extension
+    assign mem_req_flags[i][MEM_REQ_FLAG_AMO]               = inst_lsu_is_amo(execute_if.data.op_type) && execute_if.data.op_args.lsu.is_amo;;
+    assign mem_req_flags[i][MEM_REQ_FLAG_AMO_OP_END : MEM_REQ_FLAG_AMO_OP_START] =  execute_if.data.op_args.lsu.amo_op;
+    assign mem_req_flags[i][MEM_REQ_FLAG_AMO_AQ]           = execute_if.data.op_args.lsu.aq;
+    assign mem_req_flags[i][MEM_REQ_FLAG_AMO_RL]           = execute_if.data.op_args.lsu.rl;
+
+        wire lane_idx = LANE_IDX_W'(i);
+            
+        assign mem_req_flags[i][MEM_REQ_FLAG_GTID +: GTID_WIDTH] = {
+            CORE_ID,                                  // Core ID / SM ID
+            WARP_ID_W'(execute_if.data.wid),          // Warp ID from input context
+            lane_idx                                  // Thread Index (Lane ID)
+        };
+
+        // extra ----- END
     `ifdef LMEM_ENABLE
         // is local memory address
         wire [MEM_ADDRW-1:0] lmem_addr_start = MEM_ADDRW'(`XLEN'(`LMEM_BASE_ADDR) >> MEM_ASHIFT);
@@ -79,6 +106,27 @@ module VX_lsu_slice import VX_gpu_pkg::*; #(
         assign mem_req_flags[i][MEM_REQ_FLAG_LOCAL] = (block_addr >= lmem_addr_start) && (block_addr < lmem_addr_end);
     `endif
     end
+
+    // // Wire array to hold the calculated GTID for each lane
+    // wire [NUM_LANES-1:0][GTID_WIDTH-1:0] mem_req_gtid;
+    
+    // generate
+    //     if (GTID_WIDTH > 0) begin : g_gtid_gen
+    //         for (genvar i = 0; i < NUM_LANES; ++i) begin : g_lane_gtid
+    //         // Construct the Global Thread ID (GTID) for this lane [User Query]
+    //         // GTID = {SM_ID (Core ID), Warp ID, Thread Index (Lane ID)}
+    //         wire lane_idx = LANE_IDX_W'(i);
+            
+    //         assign mem_req_gtid[i] = {
+    //             CORE_ID,                                  // Core ID / SM ID
+    //             WARP_ID_W'(execute_if.data.wid),          // Warp ID from input context
+    //             lane_idx                                  // Thread Index (Lane ID)
+    //         };
+    //         // End GTID Construction
+    //     end else begin : g_no_gtid
+    //         assign lane_gtid = '0;
+    //     end
+    // endgenerate
 
     // schedule memory request
 
@@ -281,7 +329,7 @@ module VX_lsu_slice import VX_gpu_pkg::*; #(
     end
 
     // pack memory request tag
-    assign mem_req_tag = {
+    assign mem_req_tag = {  // TODO
         execute_if.data.uuid,
         execute_if.data.wid,
         execute_if.data.PC,

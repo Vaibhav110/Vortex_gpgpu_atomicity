@@ -2,15 +2,15 @@
 #include "common.h"
 
 void kernel_body(kernel_arg_t* __UNIFORM__ arg) {
-	auto A = reinterpret_cast<TYPE*>(arg->A_addr);
-	auto B = reinterpret_cast<TYPE*>(arg->B_addr);
-	auto C = reinterpret_cast<TYPE*>(arg->C_addr);
+	auto A = reinterpret_cast<int8_t*>(arg->A_addr);
+	auto B = reinterpret_cast<int8_t*>(arg->B_addr);
+	auto C = reinterpret_cast<int32_t*>(arg->C_addr);
     auto size = arg->size;
 
     int col = blockIdx.x;
     int row = blockIdx.y;
 
-    TYPE sum(0);
+    int32_t sum(0);
     for (int e = 0; e < size; ++e) {
         sum += A[row * size + e] * B[e * size + col];
     }

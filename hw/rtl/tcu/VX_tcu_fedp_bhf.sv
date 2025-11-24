@@ -75,6 +75,7 @@ module VX_tcu_fedp_bhf #(
     for (genvar i = 0; i < TCK; i++) begin : g_prod
         wire [32:0] mult_result_fp16;
         wire [32:0] mult_result_bf16;
+        wire [32:0] mult_result_tf32;
 
         // FP16 multiplication
         VX_tcu_bhf_fmul #(
@@ -96,6 +97,31 @@ module VX_tcu_fedp_bhf #(
             .y      (mult_result_fp16),
             `UNUSED_PIN(fflags)
         );
+
+        if (i % 2 == 0) begin : g_tf32_mul
+            VX_tcu_bhf_fmul #(
+                .IN_EXPW (8),     // TF32: 8 exponent bits
+                .IN_SIGW (10+1),  // TF32: 10 significand bits + 1 hidden
+                .OUT_EXPW(8),     // FP32 accum: 8 exponent bits
+                .OUT_SIGW(24),    // FP32 accum: 23 significand bits + 1
+                .IN_REC  (0),     // input in IEEE format
+                .OUT_REC (1),     // output in recoded format
+                .MUL_LATENCY (FMUL_LATENCY),
+                .RND_LATENCY (FRND_LATENCY)
+            ) tf32_mul (
+                .clk    (clk),
+                .reset  (reset),
+                .enable (enable),
+                .frm    (frm),
+                .a      (a_row[i/2][18:0]), // Use the Nth 32-bit input
+                .b      (b_col[i/2][18:0]), // Use the Nth 32-bit input
+                .y      (mult_result_tf32),
+                `UNUSED_PIN(fflags)
+            );
+        end else begin : g_tf32_zero
+            // Interleave with zeros to feed the 2*N (TCK) input reduction tree
+            assign mult_result_tf32 = 33'b0;
+        end
 
         // BF16 multiplication
         VX_tcu_bhf_fmul #(
@@ -123,6 +149,7 @@ module VX_tcu_fedp_bhf #(
             case(fmt_s_delayed)
                 3'd1: mult_result_mux = mult_result_fp16;
                 3'd2: mult_result_mux = mult_result_bf16;
+                3'd3: mult_result_mux = mult_result_tf32;
                 default: mult_result_mux = 'x;
             endcase
         end

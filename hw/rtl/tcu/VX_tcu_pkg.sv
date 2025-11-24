@@ -35,6 +35,8 @@ package VX_tcu_pkg;
     localparam TCU_I4_ID   = 11;
     localparam TCU_U4_ID   = 12;
 
+    localparam TCU_TF32_ID = 3;
+
     // Tile dimensions
     localparam TCU_TILE_CAP = TCU_NT * TCU_NR;
     localparam TCU_LG_TILE_CAP = $clog2(TCU_TILE_CAP);
@@ -92,6 +94,7 @@ package VX_tcu_pkg;
             TCU_U8_ID:   `TRACE(level, ("u8"))
             TCU_I4_ID:   `TRACE(level, ("i4"))
             TCU_U4_ID:   `TRACE(level, ("u4"))
+            TCU_TF32_ID: `TRACE(level, ("tf32"))
             default:     `TRACE(level, ("?"))
         endcase
     endtask

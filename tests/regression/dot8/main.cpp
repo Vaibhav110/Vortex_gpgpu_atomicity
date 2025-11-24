@@ -92,7 +92,7 @@ public:
   }
 };
 
-static void matmul_cpu(int32_t* out, const int8_t* A, const int8_t* B, uint32_t width, uint32_t height) {
+static void matmul_cpu(int32_t* out, int8_t* A, int8_t* B, uint32_t width, uint32_t height) {
   for (uint32_t row = 0; row < height; ++row) {
     for (uint32_t col = 0; col < width; ++col) {
       int32_t sum(0);
@@ -106,7 +106,7 @@ static void matmul_cpu(int32_t* out, const int8_t* A, const int8_t* B, uint32_t 
 
 const char* kernel_file = "kernel.vxbin";
 uint32_t size = 256;
-
+// uint32_t size_i = 8;
 vx_device_h device = nullptr;
 vx_buffer_h A_buffer = nullptr;
 vx_buffer_h B_buffer = nullptr;
@@ -189,10 +189,10 @@ int main(int argc, char *argv[]) {
   std::cout << "C_addr=0x" << std::hex << kernel_arg.C_addr << std::endl;
 
   // generate source data
-  std::vector<int8_t> h_A(size_sq);
-  std::vector<int8_t> h_B(size_sq);
+  std::vector<int8_t> h_A(size_sqi);
+  std::vector<int8_t> h_B(size_sqi);
   std::vector<int32_t> h_C(size_sq);
-  for (uint32_t i = 0; i < size_sq; ++i) {
+  for (uint32_t i = 0; i < size_sqi; ++i) {
     h_A[i] = Comparator<int8_t>::generate();
     h_B[i] = Comparator<int8_t>::generate();
   }
@@ -200,12 +200,16 @@ int main(int argc, char *argv[]) {
   // upload matrix A buffer
   {
     std::cout << "upload matrix A buffer" << std::endl;
+    std::cout << "A_buffer = " << A_buffer << ", buf_size = " << buf_size_i
+          << ", int8_t = " << sizeof(int8_t) << std::endl;
     RT_CHECK(vx_copy_to_dev(A_buffer, h_A.data(), 0, buf_size_i));
   }
 
   // upload matrix B buffer
   {
     std::cout << "upload matrix B buffer" << std::endl;
+    std::cout << "B_buffer = " << B_buffer << ", buf_size = " << buf_size_i
+          << ", int8_t = " << sizeof(int8_t) << std::endl;
     RT_CHECK(vx_copy_to_dev(B_buffer, h_B.data(), 0, buf_size_i));
   }
 
@@ -243,7 +247,7 @@ int main(int argc, char *argv[]) {
     matmul_cpu(h_ref.data(), h_A.data(), h_B.data(), size, size);
 
     for (uint32_t i = 0; i < h_ref.size(); ++i) {
-      if (!Comparator<int>::compare(h_C[i], h_ref[i], i, errors)) {
+      if (!Comparator<TYPE>::compare(h_C[i], h_ref[i], i, errors)) {
         ++errors;
       }
     }

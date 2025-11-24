@@ -20,6 +20,8 @@ module VX_scoreboard import VX_gpu_pkg::*; #(
     input wire              clk,
     input wire              reset,
 
+    input wire              no_pending_stores,
+
 `ifdef PERF_ENABLE
     output reg [PERF_CTR_BITS-1:0] perf_stalls,
     output reg [NUM_EX_UNITS-1:0][PERF_CTR_BITS-1:0] perf_units_uses,
@@ -250,7 +252,14 @@ module VX_scoreboard import VX_gpu_pkg::*; #(
     wire [PER_ISSUE_WARPS-1:0] arb_ready_in;
 
     for (genvar w = 0; w < PER_ISSUE_WARPS; ++w) begin : g_arb_data_in
-        assign arb_valid_in[w] = staging_if[w].valid && operands_ready[w];
+        // 1. Extract the Release (rl) bit from the instruction in the staging buffer
+        // Note: We access op_args.lsu.rl based on the struct definition we created earlier
+        wire is_release_op = staging_if[w].data.op_args.lsu.rl;
+
+        // 2. Create the Stall Condition
+        // Stall if (Is Release Op) AND (Stores are NOT empty)
+        wire release_stall = is_release_op && !no_pending_stores;
+        assign arb_valid_in[w] = staging_if[w].valid && operands_ready[w] && !release_stall;
         assign arb_data_in[w] = staging_if[w].data;
         assign staging_if[w].ready = arb_ready_in[w] && operands_ready[w];
     end
