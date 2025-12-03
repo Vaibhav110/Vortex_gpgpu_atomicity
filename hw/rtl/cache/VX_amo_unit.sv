@@ -66,7 +66,7 @@ module VX_amo_unit import VX_gpu_pkg::*; #(
 );
     // AMO-related flags from the incoming request
     wire is_amo = core_req_valid && core_req_flags[MEM_REQ_FLAG_AMO];
-    wire [4:0] amo_op = core_req_flags[MEM_REQ_FLAG_AMO_OP_END:MEM_REQ_FLAG_AMO_OP_BEGIN];
+    wire [4:0] amo_op = core_req_flags[MEM_REQ_FLAG_AMO_OP_END:MEM_REQ_FLAG_AMO_OP_START];
     wire [GTID_WIDTH-1:0] amo_gtid = core_req_flags[MEM_REQ_FLAG_GTID +: GTID_WIDTH];
 
     // FSM state definition
@@ -222,15 +222,15 @@ module VX_amo_unit import VX_gpu_pkg::*; #(
     always_comb begin
         amo_new_data = '0;
         case (amo_req_buf.amo_op)
-            AMO_AMOADD:  amo_new_data = amo_old_data + amo_req_buf.data;
-            AMO_AMOSWAP: amo_new_data = amo_req_buf.data;
-            AMO_AMOXOR:  amo_new_data = amo_old_data ^ amo_req_buf.data;
-            AMO_AMOAND:  amo_new_data = amo_old_data & amo_req_buf.data;
-            AMO_AMOOR:   amo_new_data = amo_old_data | amo_req_buf.data;
-            AMO_AMOMIN:  amo_new_data = ($signed(amo_old_data) < $signed(amo_req_buf.data)) ? amo_old_data : amo_req_buf.data;
-            AMO_AMOMAX:  amo_new_data = ($signed(amo_old_data) > $signed(amo_req_buf.data)) ? amo_old_data : amo_req_buf.data;
-            AMO_AMOMINU: amo_new_data = (amo_old_data < amo_req_buf.data) ? amo_old_data : amo_req_buf.data;
-            AMO_AMOMAXU: amo_new_data = (amo_old_data > amo_req_buf.data) ? amo_old_data : amo_req_buf.data;
+            AMO_ADD:  amo_new_data = amo_old_data + amo_req_buf.data;
+            AMO_SWAP: amo_new_data = amo_req_buf.data;
+            AMO_XOR:  amo_new_data = amo_old_data ^ amo_req_buf.data;
+            AMO_AND:  amo_new_data = amo_old_data & amo_req_buf.data;
+            AMO_OR:   amo_new_data = amo_old_data | amo_req_buf.data;
+            AMO_MIN:  amo_new_data = ($signed(amo_old_data) < $signed(amo_req_buf.data)) ? amo_old_data : amo_req_buf.data;
+            AMO_MAX:  amo_new_data = ($signed(amo_old_data) > $signed(amo_req_buf.data)) ? amo_old_data : amo_req_buf.data;
+            AMO_MINU: amo_new_data = (amo_old_data < amo_req_buf.data) ? amo_old_data : amo_req_buf.data;
+            AMO_MAXU: amo_new_data = (amo_old_data > amo_req_buf.data) ? amo_old_data : amo_req_buf.data;
             AMO_SC:   amo_new_data = sc_success ? amo_req_buf.data : amo_old_data;
             default:   amo_new_data = amo_old_data; // For LR
         endcase

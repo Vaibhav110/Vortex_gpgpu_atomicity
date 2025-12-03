@@ -261,7 +261,7 @@ module VX_scoreboard import VX_gpu_pkg::*; #(
         wire release_stall = is_release_op && !no_pending_stores;
         assign arb_valid_in[w] = staging_if[w].valid && operands_ready[w] && !release_stall;
         assign arb_data_in[w] = staging_if[w].data;
-        assign staging_if[w].ready = arb_ready_in[w] && operands_ready[w];
+        assign staging_if[w].ready = arb_ready_in[w] && operands_ready[w] && !release_stall;
     end
 
     VX_stream_arb #(

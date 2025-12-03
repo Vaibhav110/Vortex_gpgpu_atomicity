@@ -31,7 +31,7 @@ package VX_gpu_pkg;
 	localparam NB_WIDTH = `UP(NB_BITS);
 
     // Define Global Thread ID Width
-    localparam GTID_WIDTH = NC_WIDTH + NW_WIDTH + NT_WIDTH; // SM_ID + Warp_ID + Lane_ID
+    localparam GTID_WIDTH = `UP(NC_WIDTH + NW_WIDTH + NT_WIDTH); // SM_ID + Warp_ID + Lane_ID
 
     localparam XLENB    = `XLEN / 8;
 
@@ -109,7 +109,7 @@ package VX_gpu_pkg;
     localparam MEM_REQ_FLAG_AMO_OP_END   = 8;  // NEW: End of funct5 (bits 4-8)
     localparam MEM_REQ_FLAG_AQ             = 9;  // Acquire Bit
     localparam MEM_REQ_FLAG_RL             = 10; // Release Bit
-    localparam MEM_REQ_FLAG_GTID = 11
+    localparam MEM_REQ_FLAG_GTID = 11;
     // localparam MEM_FLAGS_WIDTH = (MEM_REQ_FLAG_LOCAL + `LMEM_ENABLED);
     localparam MEM_FLAGS_WIDTH = MEM_REQ_FLAG_RL + 1 + GTID_WIDTH;  // Now 11 bits
 

@@ -85,6 +85,12 @@ module VX_decode import VX_gpu_pkg::*; #(
     wire [12:0] b_imm   = {instr[31], instr[7], instr[30:25], instr[11:8], 1'b0};
     wire [20:0] jal_imm = {instr[31], instr[19:12], instr[20], instr[30:21], 1'b0};
 
+                
+    // Extract instruction fields
+    wire [4:0] amo_funct5 = instr[31:27];
+    wire aq_bit = instr[26];
+    wire rl_bit = instr[25];
+
     reg [INST_ALU_BITS-1:0] r_type;
     always @(*) begin
         case (funct3)
@@ -555,11 +561,6 @@ module VX_decode import VX_gpu_pkg::*; #(
 
             INST_AMO: begin
                 ex_type = EX_LSU;  // Route to LoadStore Unit
-            
-                // Extract instruction fields
-                wire [4:0] amo_funct5 = instr[31:27];
-                wire aq_bit = instr[26];
-                wire rl_bit = instr[25];
                 
                 case (amo_funct5)
                     AMO_LR: begin
@@ -571,19 +572,19 @@ module VX_decode import VX_gpu_pkg::*; #(
                         `USED_IREG(rs1); // SC requires rs1 as address
                         `USED_IREG(rs2); // and rs2 as value to store
                     end
-                    AMO_AMOADD,
-                    AMO_AMOMIN,
-                    AMO_AMOMAX,
-                    AMO_AMOMINU,
-                    AMO_AMOMAXU: begin
+                    AMO_ADD,
+                    AMO_MIN,
+                    AMO_MAX,
+                    AMO_MINU,
+                    AMO_MAXU: begin
                         op_type = INST_OP_BITS'(INST_LSU_AMO_ARITH); // arithmetical AMO ops
                         `USED_IREG(rs1);
                         `USED_IREG(rs2);
                     end
-                    AMO_AMOSWAP,
-                    AMO_AMOXOR,
-                    AMO_AMOAND,
-                    AMO_AMOOR: begin
+                    AMO_SWAP,
+                    AMO_XOR,
+                    AMO_AND,
+                    AMO_OR: begin
                         op_type = INST_OP_BITS'(INST_LSU_AMO_LOGIC); // logical AMO ops
                         `USED_IREG(rs1);
                         `USED_IREG(rs2);
@@ -608,7 +609,6 @@ module VX_decode import VX_gpu_pkg::*; #(
                 op_args.lsu.rl       = rl_bit;
                 
                 // Control Signals
-                wb = 1'b1;           // Writeback to GPR required
                 is_wstall = 1'b1;    // Stall - atomic ops are long-latency      
 
             end

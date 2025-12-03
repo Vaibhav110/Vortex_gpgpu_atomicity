@@ -22,6 +22,8 @@ module VX_lsu_slice import VX_gpu_pkg::*; #(
     input wire              clk,
     input wire              reset,
 
+    output wire             no_pending_stores,
+
     // Inputs
     VX_execute_if.slave     execute_if,
 
@@ -39,7 +41,7 @@ module VX_lsu_slice import VX_gpu_pkg::*; #(
     localparam MEM_ADDRW    = `MEM_ADDR_WIDTH - MEM_ASHIFT;
 
     // Define Global Thread ID widths and placeholders
-    localparam GTID_WIDTH    = VX_gpu_pkg::GTID_WIDTH;    // Total width for Global Thread ID
+    // localparam GTID_WIDTH    = VX_gpu_pkg::GTID_WIDTH;    // Total width for Global Thread ID
     localparam CORE_ID_W     = VX_gpu_pkg::NC_WIDTH;    // Width for Core ID (SM ID)
     localparam WARP_ID_W     = VX_gpu_pkg::NW_WIDTH;    // Width for Warp ID
     localparam LANE_IDX_W    = VX_gpu_pkg::NT_WIDTH;    // Width for Thread Index (Lane ID)
@@ -84,16 +86,16 @@ module VX_lsu_slice import VX_gpu_pkg::*; #(
         assign mem_req_flags[i][MEM_REQ_FLAG_FLUSH] = req_is_fence;
         assign mem_req_flags[i][MEM_REQ_FLAG_IO] = (block_addr >= io_addr_start) && (block_addr < io_addr_end);
 
-    // extra information for amo extension
-    assign mem_req_flags[i][MEM_REQ_FLAG_AMO]               = inst_lsu_is_amo(execute_if.data.op_type) && execute_if.data.op_args.lsu.is_amo;;
-    assign mem_req_flags[i][MEM_REQ_FLAG_AMO_OP_END : MEM_REQ_FLAG_AMO_OP_START] =  execute_if.data.op_args.lsu.amo_op;
-    assign mem_req_flags[i][MEM_REQ_FLAG_AMO_AQ]           = execute_if.data.op_args.lsu.aq;
-    assign mem_req_flags[i][MEM_REQ_FLAG_AMO_RL]           = execute_if.data.op_args.lsu.rl;
+        // extra information for amo extension
+        assign mem_req_flags[i][MEM_REQ_FLAG_AMO]               = inst_lsu_is_amo(execute_if.data.op_type) && execute_if.data.op_args.lsu.is_amo;
+        assign mem_req_flags[i][MEM_REQ_FLAG_AMO_OP_END : MEM_REQ_FLAG_AMO_OP_START] =  execute_if.data.op_args.lsu.amo_op;
+        assign mem_req_flags[i][MEM_REQ_FLAG_AQ]           = execute_if.data.op_args.lsu.aq;
+        assign mem_req_flags[i][MEM_REQ_FLAG_RL]           = execute_if.data.op_args.lsu.rl;
 
-        wire lane_idx = LANE_IDX_W'(i);
+        wire [LANE_IDX_W-1:0] lane_idx = LANE_IDX_W'(i);
             
         assign mem_req_flags[i][MEM_REQ_FLAG_GTID +: GTID_WIDTH] = {
-            CORE_ID,                                  // Core ID / SM ID
+            CORE_ID_W'(CORE_ID),                                  // Core ID / SM ID
             WARP_ID_W'(execute_if.data.wid),          // Warp ID from input context
             lane_idx                                  // Thread Index (Lane ID)
         };
@@ -357,6 +359,7 @@ module VX_lsu_slice import VX_gpu_pkg::*; #(
     wire [NUM_LANES-1:0][(LSU_WORD_SIZE*8)-1:0] lsu_mem_rsp_data;
     wire [LSU_TAG_WIDTH-1:0]                lsu_mem_rsp_tag;
     wire                                    lsu_mem_rsp_ready;
+    wire                                    req_queue_empty;
 
     VX_mem_scheduler #(
         .INSTANCE_ID (`SFORMATF(("%s-memsched", INSTANCE_ID))),
@@ -389,7 +392,8 @@ module VX_lsu_slice import VX_gpu_pkg::*; #(
         .core_req_ready (mem_req_ready),
 
         // request queue info
-        `UNUSED_PIN (req_queue_empty),
+        // `UNUSED_PIN (req_queue_empty),
+        .req_queue_empty (req_queue_empty),
         `UNUSED_PIN (req_queue_rw_notify),
 
         // Output response
@@ -435,6 +439,8 @@ module VX_lsu_slice import VX_gpu_pkg::*; #(
     assign lsu_mem_rsp_data = lsu_mem_if.rsp_data.data;
     assign lsu_mem_rsp_tag = lsu_mem_if.rsp_data.tag;
     assign lsu_mem_if.rsp_ready = lsu_mem_rsp_ready;
+
+    assign no_pending_stores = req_queue_empty; // only high when scheduler queue is empty
 
     wire [UUID_WIDTH-1:0] rsp_uuid;
     wire [NW_WIDTH-1:0] rsp_wid;

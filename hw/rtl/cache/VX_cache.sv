@@ -93,7 +93,7 @@ module VX_cache import VX_gpu_pkg::*; #(
     localparam BANK_SEL_BITS   = `CLOG2(NUM_BANKS);
     localparam BANK_SEL_WIDTH  = `UP(BANK_SEL_BITS);
     localparam LINE_ADDR_WIDTH = (`CS_WORD_ADDR_WIDTH - BANK_SEL_BITS - WORD_SEL_BITS);
-    localparam CORE_REQ_DATAW  = LINE_ADDR_WIDTH + 1 + WORD_SEL_WIDTH + WORD_SIZE + WORD_WIDTH + TAG_WIDTH + `UP(MEM_FLAGS_WIDTH) + VX_gpu_pkg::GTID_WIDTH;  // TODO: Check how to add (GTID_WIDTH)
+    localparam CORE_REQ_DATAW  = LINE_ADDR_WIDTH + 1 + WORD_SEL_WIDTH + WORD_SIZE + WORD_WIDTH + TAG_WIDTH + `UP(MEM_FLAGS_WIDTH);  // TODO: Check how to add (GTID_WIDTH)
     localparam CORE_RSP_DATAW  = WORD_WIDTH + TAG_WIDTH;
     localparam BANK_MEM_TAG_WIDTH = UUID_WIDTH + MSHR_ADDR_WIDTH;
     localparam MEM_REQ_DATAW   = (`CS_LINE_ADDR_WIDTH + 1 + LINE_SIZE + `CS_LINE_WIDTH + BANK_MEM_TAG_WIDTH + `UP(MEM_FLAGS_WIDTH));
@@ -317,7 +317,7 @@ module VX_cache import VX_gpu_pkg::*; #(
             core_req_byteen[i],
             core_req_data[i],
             core_req_tag[i],
-            core_req_flags[i],
+            core_req_flags[i]
         //     core_req_gtid[i]  // added gtid in request
         };
     end
@@ -361,7 +361,7 @@ module VX_cache import VX_gpu_pkg::*; #(
             per_bank_core_req_byteen[i],
             per_bank_core_req_data[i],
             per_bank_core_req_tag[i],
-            per_bank_core_req_flags[i],
+            per_bank_core_req_flags[i]
             // per_bank_core_req_gtid[i]   // added as part of the flags
         } = core_req_data_out[i];
     end
@@ -398,7 +398,7 @@ module VX_cache import VX_gpu_pkg::*; #(
             .TAG_WIDTH          (TAG_WIDTH),
             .WORD_WIDTH         (`CS_WORD_WIDTH),
             .ADDR_WIDTH         (`CS_LINE_ADDR_WIDTH),
-            .GTID_WIDTH         (VX_gpu_pkg::GTID_WIDTH), // TODO
+            // .GTID_WIDTH         (VX_gpu_pkg::GTID_WIDTH), // TODO - done
             // .MEM_FLAGS_WIDTH    (MEM_FLAGS_WIDTH),
             .WORD_SEL_WIDTH     (WORD_SEL_WIDTH),
             .REQ_SEL_WIDTH      (REQ_SEL_WIDTH),

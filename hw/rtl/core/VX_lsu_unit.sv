@@ -22,6 +22,8 @@ module VX_lsu_unit import VX_gpu_pkg::*; #(
     input wire              clk,
     input wire              reset,
 
+    output wire             no_pending_stores,
+
     // Inputs
     VX_dispatch_if.slave    dispatch_if [`ISSUE_WIDTH],
 
@@ -53,6 +55,9 @@ module VX_lsu_unit import VX_gpu_pkg::*; #(
         .data_t (lsu_res_t)
     ) per_block_result_if[BLOCK_SIZE]();
 
+    // Wire to collect status from each block
+    wire [`NUM_LSU_BLOCKS-1:0] per_block_no_pending_stores;
+
     for (genvar block_idx = 0; block_idx < BLOCK_SIZE; ++block_idx) begin : g_blocks
         VX_lsu_slice #(
             .CORE_ID (CORE_ID),
@@ -61,11 +66,16 @@ module VX_lsu_unit import VX_gpu_pkg::*; #(
             `SCOPE_IO_BIND  (block_idx)
             .clk        (clk),
             .reset      (reset),
+
+            .no_pending_stores (per_block_no_pending_stores[block_idx]),
+
             .execute_if (per_block_execute_if[block_idx]),
             .result_if  (per_block_result_if[block_idx]),
             .lsu_mem_if (lsu_mem_if[block_idx])
         );
     end
+
+    assign no_pending_stores = (& per_block_no_pending_stores);
 
     VX_gather_unit #(
         .BLOCK_SIZE (BLOCK_SIZE),
