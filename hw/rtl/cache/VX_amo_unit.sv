@@ -211,10 +211,24 @@ module VX_amo_unit import VX_gpu_pkg::*; #(
                 lr_reserved_gtid  <= amo_req_buf.gtid;
                 lr_reserved_valid <= 1'b1;
             end
-            // Clear reservation on any intervening write to the reserved address
-            else if (lr_reserved_valid && (amo_state == AMO_WRITE) && (amo_req_buf.addr == lr_reserved_addr) && (amo_req_buf.gtid == lr_reserved_gtid) && cache_req_valid && cache_req_ready) begin
+             // CLEAR on successful SC (owned by same thread)
+            else if (amo_state == AMO_WAIT_WRITE && sc_success && amo_req_buf.amo_op == AMO_SC) begin
                 lr_reserved_valid <= 1'b0;
             end
+                // CLEAR on FAILED SC (reservation already invalid, but be explicit)
+            else if (amo_state == AMO_WAIT_WRITE && ~sc_success && amo_req_buf.amo_op == AMO_SC) begin
+                lr_reserved_valid <= 1'b0;  // Already invalid, but confirm
+            end
+                // CLEAR on intervening write from DIFFERENT thread
+            else if (lr_reserved_valid && amo_state == AMO_WRITE && amo_req_buf.amo_op != AMO_SC && cache_req_valid && cache_req_ready) begin
+                // Any non-SC write invalidates all other threads' reservations
+                lr_reserved_valid <= 1'b0;
+            end
+
+            // // Clear reservation on any intervening write to the reserved address
+            // else if (lr_reserved_valid && (amo_state == AMO_WRITE) && (amo_req_buf.addr == lr_reserved_addr) && (amo_req_buf.gtid == lr_reserved_gtid) && cache_req_valid && cache_req_ready) begin
+            //     lr_reserved_valid <= 1'b0;
+            // end
         end
     end
 
@@ -244,7 +258,7 @@ module VX_amo_unit import VX_gpu_pkg::*; #(
     assign core_rsp_tag   = (amo_state == AMO_IDLE) ? cache_rsp_tag : amo_req_buf.tag;
     assign core_rsp_idx   = (amo_state == AMO_IDLE) ? cache_rsp_idx : amo_req_buf.idx;
     assign core_rsp_data  = (amo_state == AMO_IDLE) ? cache_rsp_data :
-                            (amo_req_buf.amo_op == AMO_SC) ? {{WORD_WIDTH-1{1'b0}}, !sc_success} : // SC returns 0 for success, 1 for failure
+                            (amo_req_buf.amo_op == AMO_SC) ? {{WORD_WIDTH-1{1'b0}}, ~sc_success} : // SC returns 0 for success, 1 for failure
                             amo_old_data; // Other AMOs return old value
 
     // Cache Request Interface

@@ -596,6 +596,10 @@ module VX_decode import VX_gpu_pkg::*; #(
                     end
                 endcase
                  `USED_IREG(rd); 
+
+                use_rd  = 1'b1;
+                use_rs1 = 1'b1;
+                use_rs2 = 1'b1;
                 
                 // Populate LSU Arguments
                 op_args.lsu.is_store = 1'b0;     // Special request type  // TODO: Check
