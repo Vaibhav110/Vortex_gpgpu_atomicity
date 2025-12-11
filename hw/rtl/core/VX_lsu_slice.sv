@@ -537,8 +537,8 @@ module VX_lsu_slice import VX_gpu_pkg::*; #(
         .ready_out (result_no_rsp_if.ready)
     );
 
-    assign result_no_rsp_if.data.rd   = '0;
-    assign result_no_rsp_if.data.wb   = 1'b0;
+    assign result_no_rsp_if.data.rd   = '0; // execute_if.data.rd; // '0;
+    assign result_no_rsp_if.data.wb   = 1'b0; // execute_if.data.wb;
     assign result_no_rsp_if.data.data = result_rsp_if.data.data; // arbiter MUX optimization
 
     VX_stream_arb #(

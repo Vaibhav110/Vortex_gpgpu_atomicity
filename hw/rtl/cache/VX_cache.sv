@@ -34,7 +34,7 @@ module VX_cache import VX_gpu_pkg::*; #(
     parameter WORD_SIZE             = 16,
 
     // AMO ENABLE
-    parameter AMO_ENABLE            = 0,
+    parameter AMO_ENABLE            = 1,
 
     // Core Response Queue Size
     parameter CRSQ_SIZE             = 4,
@@ -394,7 +394,7 @@ module VX_cache import VX_gpu_pkg::*; #(
         // amo unit
         VX_amo_unit #(
             .BANK_ID            (bank_id),
-            .INSTANCE_ID        (`SFORMATF(("%s-amo_unit%0d", INSTANCE_ID, bank_id))),
+            // .INSTANCE_ID        (`SFORMATF(("%s-amo_unit%0d", INSTANCE_ID, bank_id))),
             .TAG_WIDTH          (TAG_WIDTH),
             .WORD_WIDTH         (`CS_WORD_WIDTH),
             .ADDR_WIDTH         (`CS_LINE_ADDR_WIDTH),
@@ -402,7 +402,7 @@ module VX_cache import VX_gpu_pkg::*; #(
             // .MEM_FLAGS_WIDTH    (MEM_FLAGS_WIDTH),
             .WORD_SEL_WIDTH     (WORD_SEL_WIDTH),
             .REQ_SEL_WIDTH      (REQ_SEL_WIDTH),
-            .CS_LINE_ADDR_WIDTH (`CS_LINE_ADDR_WIDTH),
+            // .CS_LINE_ADDR_WIDTH (`CS_LINE_ADDR_WIDTH),
             .WORD_SIZE          (WORD_SIZE)
         ) amo_unit (
             .clk(clk),
