@@ -111,13 +111,13 @@ module VX_alu_dot8 import VX_gpu_pkg::*; #(
         `BUFFER_EX(result, c, pe_enable, 1, LATENCY_DOT8);
         assign pe_data_out[i] = `XLEN'(result);
 
-    `ifdef DBG_TRACE_PIPELINE
-        always @(posedge clk) begin
-            if (pe_enable) begin
-                `TRACE(2, ("%t: %s dot8[%0d]: a=0%0h, b=0x%0h, c=0x%0h\n", $time, INSTANCE_ID, i, a, b, c))
-            end
-        end
-    `endif
+    // `ifdef DBG_TRACE_PIPELINE
+    //     always @(posedge clk) begin
+    //         if (pe_enable) begin
+    //             `TRACE(2, ("%t: %s dot8[%0d]: a=0%0h, b=0x%0h, c=0x%0h\n", $time, INSTANCE_ID, i, a, b, c))
+    //         end
+    //     end
+    // `endif
     end
 
 endmodule

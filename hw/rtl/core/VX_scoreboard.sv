@@ -304,7 +304,7 @@ module VX_scoreboard import VX_gpu_pkg::*; #(
         assign stall_for_acquire[w] = atomic_aq_inflight[w];
         
         // Combined stall condition
-        assign atomic_stall[w] = (stall_for_release[w] || stall_for_acquire[w]);
+        assign atomic_stall[w] = 1'b0 && (stall_for_release[w] || stall_for_acquire[w]);
     end
 
     // ========================================================================

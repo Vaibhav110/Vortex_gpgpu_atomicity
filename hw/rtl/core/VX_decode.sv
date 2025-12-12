@@ -160,20 +160,11 @@ module VX_decode import VX_gpu_pkg::*; #(
         use_rs2   = 0;
         use_rs3   = 0;
         is_wstall = 0;
-        op_args.lsu.is_amo   = 1'b0;
-        op_args.lsu.amo_op   = 5'd0;
-        op_args.lsu.aq       = 1'b0;
-        op_args.lsu.rl       = 1'b0;
-        // op_args.lsu = '{
-        //             __padding: '0,
-        //             is_amo:    1'b0, // <-- CRITICAL FIX
-        //             amo_op:    5'b0,
-        //             aq:        1'b0,
-        //             rl:        1'b0,
-        //             is_store:  1'b0,
-        //             is_float:  1'b0,
-        //             offset:    12'b0
-        //         };
+        // op_args.lsu.is_amo   = 1'b0;
+        // op_args.lsu.amo_op   = 5'd0;
+        // op_args.lsu.aq       = 1'b0;
+        // op_args.lsu.rl       = 1'b0;
+
         case (opcode)
             INST_AMO: begin
                 ex_type = EX_LSU;  // Route to LoadStore Unit
@@ -225,7 +216,8 @@ module VX_decode import VX_gpu_pkg::*; #(
                 op_args.lsu.offset   = 12'b0;    // AMOs don't use immediate offsets
                                 
                 // Control Signals
-                is_wstall = 1'b1;    // Stall - atomic ops are long-latency      
+                // is_wstall = 1'b1;    // Stall - atomic ops are long-latency      
+                is_wstall = 0;
 
             end
             INST_I: begin
@@ -236,21 +228,6 @@ module VX_decode import VX_gpu_pkg::*; #(
                 op_args.alu.use_PC = 0;
                 op_args.alu.use_imm = 1;
                 op_args.alu.imm = `SEXT(`XLEN, i_imm);
-                op_args.lsu.is_amo   = 1'b0;
-                op_args.lsu.amo_op   = 5'd0;
-                op_args.lsu.aq       = 1'b0;
-                op_args.lsu.rl       = 1'b0;
-                // op_args.lsu = '{
-                //     __padding: '0,
-                //     is_amo:    1'b0, // <-- CRITICAL FIX
-                //     amo_op:    5'b0,
-                //     aq:        1'b0,
-                //     rl:        1'b0,
-                //     is_store:  1'b0,
-                //     is_float:  1'b0,
-                //     offset:    12'b0
-                // };
-
                 `USED_IREG (rd);
                 `USED_IREG (rs1);
             end
@@ -348,17 +325,7 @@ module VX_decode import VX_gpu_pkg::*; #(
                 op_args.alu.use_PC = 1;
                 op_args.alu.use_imm = 1;
                 op_args.alu.imm = `SEXT(`XLEN, jal_imm);
-                op_args.lsu.is_amo = 1'b0;
-                // op_args.lsu = '{
-                //     __padding: '0,
-                //     is_amo:    1'b0, // <-- CRITICAL FIX
-                //     amo_op:    5'b0,
-                //     aq:        1'b0,
-                //     rl:        1'b0,
-                //     is_store:  1'b0,
-                //     is_float:  1'b0,
-                //     offset:    12'b0
-                // };
+                // op_args.lsu.is_amo = 1'b0;
                 is_wstall = 1;
                 `USED_IREG (rd);
             end
@@ -389,17 +356,6 @@ module VX_decode import VX_gpu_pkg::*; #(
             INST_FENCE: begin
                 ex_type = EX_LSU;
                 op_type = INST_LSU_FENCE;
-
-                // op_args.lsu = '{
-                //     __padding: '0,
-                //     is_store:  1'b0, // Store flag must be high
-                //     is_float:  0,
-                //     offset:    0,
-                //     is_amo:    1'b0, // <-- CRITICAL FIX: Explicitly not AMO
-                //     amo_op:    5'b0,
-                //     aq:        1'b0,
-                //     rl:        1'b0
-                // };
                 op_args.lsu.is_amo   = 1'b0;
                 op_args.lsu.amo_op   = 0; 
                 op_args.lsu.aq       = 0; 
@@ -440,17 +396,6 @@ module VX_decode import VX_gpu_pkg::*; #(
                 ex_type = EX_LSU;
                 op_type = INST_OP_BITS'({1'b0, funct3});
 
-                // op_args.lsu = '{
-                //     __padding: '0,
-                //     is_store:  1'b0, // Store flag must be high
-                //     is_float:  opcode[2],
-                //     offset:    u_12,
-                //     is_amo:    1'b0, // <-- CRITICAL FIX: Explicitly not AMO
-                //     amo_op:    5'b0,
-                //     aq:        1'b0,
-                //     rl:        1'b0
-                // };
-
                 op_args.lsu.is_amo   = 1'b0;
                 op_args.lsu.amo_op   = 0; 
                 op_args.lsu.aq       = 0; 
@@ -471,17 +416,6 @@ module VX_decode import VX_gpu_pkg::*; #(
             INST_S: begin
                 ex_type = EX_LSU;
                 op_type = INST_OP_BITS'({1'b1, funct3});
-
-                // op_args.lsu = '{
-                //     __padding: '0,
-                //     is_store:  1'b1, // Store flag must be high
-                //     is_float:  opcode[2],
-                //     offset:    s_imm,
-                //     is_amo:    1'b0, // <-- CRITICAL FIX: Explicitly not AMO
-                //     amo_op:    5'b0,
-                //     aq:        1'b0,
-                //     rl:        1'b0
-                // };
 
                 op_args.lsu.is_amo   = 1'b0;
                 op_args.lsu.amo_op   = 0; 

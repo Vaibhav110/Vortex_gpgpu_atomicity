@@ -137,7 +137,7 @@ module VX_amo_unit import VX_gpu_pkg::*; #(
             // --- NEW LR/SC Specific Paths (Phase IV) ---
             AMO_SC_CHECK: begin
                 // Check success based on *current* incoming request vs RSR
-                current_sc_success = lr_reserved_valid && (lr_reserved_addr == core_req_addr) && (lr_reserved_gtid == amo_gtid);
+                current_sc_success = lr_reserved_valid && (lr_reserved_addr == amo_req_buf.addr) && (lr_reserved_gtid == amo_req_buf.gtid);
                 if (!current_sc_success) begin
                     // Reservation failed (snoop hit, mismatch, etc.) -> Fail immediately
                     amo_state_next = AMO_SC_FAIL; 
@@ -255,12 +255,13 @@ module VX_amo_unit import VX_gpu_pkg::*; #(
             // else if (lr_reserved_valid && (amo_state == AMO_WRITE) && (amo_req_buf.addr == lr_reserved_addr) && (amo_req_buf.gtid == lr_reserved_gtid) && cache_req_valid && cache_req_ready) begin
             
             // CLEAR on successful SC (owned by same thread)
-            else if (amo_state == AMO_WAIT_WRITE && sc_success && amo_req_buf.amo_op == AMO_SC) begin
+            // [FIXED] Clears ONLY when response is valid and ready (Handshake complete)
+            else if (amo_state == AMO_RESPOND && core_rsp_ready && sc_success && amo_req_buf.amo_op == AMO_SC) begin
                 lr_reserved_valid <= 1'b0;
             end
                 // CLEAR on FAILED SC (reservation already invalid, but be explicit)
-            else if (amo_state == AMO_WAIT_WRITE && ~sc_success && amo_req_buf.amo_op == AMO_SC) begin
-                lr_reserved_valid <= 1'b0;  // Already invalid, but confirm
+            else if (amo_state == AMO_RESPOND && core_rsp_ready && sc_success && amo_req_buf.amo_op == AMO_SC) begin
+                lr_reserved_valid <= 1'b0;
             end
                 // CLEAR on intervening write from DIFFERENT thread
             // else if (lr_reserved_valid && amo_state == AMO_WRITE && amo_req_buf.amo_op != AMO_SC && cache_req_valid && cache_req_ready) begin
@@ -317,7 +318,7 @@ module VX_amo_unit import VX_gpu_pkg::*; #(
                             amo_old_data ; // Other AMOs return old value
 
     // Cache Request Interface
-    assign cache_req_valid  = (amo_state == AMO_IDLE) ? core_req_valid :
+    assign cache_req_valid  = (amo_state == AMO_IDLE) ? (core_req_valid && !is_amo) :
                               (amo_state == AMO_READ)  ? 1'b1 :
                               (amo_state == AMO_WRITE) ? 1'b1 : 0;
     assign cache_req_addr   = (amo_state == AMO_IDLE) ? core_req_addr : amo_req_buf.addr;

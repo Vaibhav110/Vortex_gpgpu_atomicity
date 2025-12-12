@@ -1,0 +1,362 @@
+Running tests/riscv/atomicity/lr_sc_minimal.bin...
+CONFIGS: num_threads=1, num_warps=2, num_cores=1, num_clusters=1, socket_size=1, local_mem_base=0xffff0000, num_barriers=1
+                   1: cluster0-socket0-core0-lmem core-wr-req[0]: addr=0x285b5ada, byteen=0x5, data=0x04751a9d, tag=0x0 (#14099365808285)
+                   1: cluster0-socket0-core0-lmem bank-rd-req[0]: addr=0xaec, tag=0x0 (#15903071614024)
+                   1: cluster0-socket0-core0-lmem bank-rd-rsp[0]: data=0x6e3f780b, tag=0x1 (#11290678761997)
+                   1: [VX_amo_unit-0] State: AMO_SC_FAIL, is_amo=0, core_req_v=0, core_req_r=0, cache_req_v=0, cache_req_r=0, core_rsp_v=0, core_rsp_r=0, cache_rsp_v=0, cache_rsp_r=0, amo_op=19, addr=1ddeec7, gtid=6, wdata=8928e8b8, rdata=a99c9228, new_data=a99c9228, sc_succ=0
+                   1: cluster0-socket0-dcache0-bank0 fill-rsp: addr=0x51cfa40, mshr_id=9, data=0xb3a14d8477a293d82073c7340c6ede3462a844fc351bc013301d161821ea8a12958fd8d99bf4e5e32f82b29aebb90b7373646fd4ee3f690f049789c72c07eb2e (#12035422593152)
+                   1: cluster0-socket0-dcache0-bank0 tags-init: addr=0x5c1f5fc0, line=63
+                   1: cluster0-socket0-dcache0-bank0 tags-fill: addr=0x5c1f5fc0, way=2, line=63, dirty=0 (#14873672774381)
+                   1: cluster0-socket0-dcache0-bank0 tags-hit: addr=0x5c1f5fc0, rw=1, way=3, line=63, tag=0x5c1f5 (#14873672774381)
+                   1: cluster0-socket0-dcache0-bank0 data-fill: addr=0x5c1f5fc0, way=3, line=63, data=0x5a6806ad8e425bcc5fef65ce6f44ec0122ef151c676715f65583436791908f2e7e1e00de48a42681799f774fb04128282322bc346c4b5746a95da0dd9bcdd0cf (#14873672774381)
+                   1: [VX_amo_unit-0] State: , is_amo=0, core_req_v=1, core_req_r=0, cache_req_v=0, cache_req_r=0, core_rsp_v=0, core_rsp_r=1, cache_rsp_v=0, cache_rsp_r=0, amo_op=0c, addr=3cd4772, gtid=3, wdata=a7f6d769, rdata=2b90f0b7, new_data=2390d021, sc_succ=0
+                   1: cluster0-socket0-core0-commit: wid=1, sid=0, PC=0x7641a3e8, ex=FPU, tmask=0, wb=1, rd=20, sop=1, eop=1, data={0x6a06c17d} (#9149513256009)
+                   1: cluster0-socket0-core0-issue0-ibuffer: wid=1, PC=0x0, ex=ALU, op=ADD, tmask=0, wb=0, used_rs=000, rd=0, rs1=0, rs2=0, rs3=0, use_PC=0, use_imm=0, imm=0x0 (#0)
+                   1: cluster0-socket0-dcache0-bank0-mshr fill: addr=0x51cfa40, id=9
+                   3: cluster0-socket0-icache0 mem-rd-rsp[0]: data=0xf30f5c7b0c76414b9f7a73fe7102cc4884edf4bbd9af97b1f7c94ae15df3ea888554b275f3165057a41d7699bca6ea4f675690c25527993a44a78de1d293e59f, tag=0xc (#3498107161876)
+                   3: cluster0-socket0-dcache0 mem-rd-rsp[0]: data=0xf4a3259ce5bc5ae689e382e36d267a8eeafe4cb79bd2e47f54071f86259123026d97eb1fec23f4ce06011e0494d981960ec112053fb1a4fb4a4c6cadffd6d2c7, tag=0x29 (#3384546799534)
+                   3: cluster0-socket0-icache0 core-rd-rsp[0]: tag=0x1, data=0x17c39107 (#6808723667567)
+                   3: cluster0-socket0-icache0-bank0 tags-init: addr=0xc00, line=48
+                   3: cluster0-socket0-core0-schedule: wid=0, PC=0xe6e2cc9a, tmask=1 (#0)
+                   3: cluster0-socket0-core0-fetch rsp: wid=1, PC=0x359857e6, tmask=1, instr=0x17c39107 (#6808723667567)
+                   5: cluster0-socket0-icache0 mem-rd-req[0]: addr=0x76261940, tag=0x1 (#7686854332452)
+                   5: cluster0-socket0-dcache0-bank0 tags-init: addr=0x0, line=0
+                   5: cluster0-socket0-icache0-bank0 tags-init: addr=0xc40, line=49
+                   5: cluster0-socket0-core0-issue0-ibuffer: wid=1, PC=0x359857e6, ex=LSU, op=?, tmask=1, wb=1, used_rs=001, rd=34, rs1=7, rs2=7, rs3=29, offset=0x17c (#6808723667567)
+                   5: cluster0-socket0-core0-fetch req: wid=0, PC=0xe6e2cc9a, tmask=1 (#0)
+                   7: cluster0-socket0-core0-schedule: wid=0, PC=0xe6e2cc9a, tmask=1 (#0)
+                   9: cluster0-socket0-core0-schedule: wid=0, PC=0xe6e2cc9a, tmask=1 (#0)
+                  11: cluster0-socket0-core0-schedule: wid=0, PC=0xe6e2cc9a, tmask=1 (#0)
+                  13: cluster0-socket0-core0-schedule: wid=0, PC=0xe6e2cc9a, tmask=1 (#0)
+                  15: cluster0-socket0-core0-schedule: wid=0, PC=0xe6e2cc9a, tmask=1 (#0)
+                  17: base-dcr: state=STARTUP_ADDR0, data=0x80000000
+                  17: cluster0-socket0-core0-schedule: wid=0, PC=0xe6e2cc9a, tmask=1 (#0)
+                  19: cluster0-socket0-core0-schedule: wid=0, PC=0xe6e2cc9a, tmask=1 (#0)
+                  21: base-dcr: state=MPM_CLASS, data=0x00000000
+                  21: cluster0-socket0-core0-schedule: wid=0, PC=0x80000000, tmask=1 (#0)
+                  23: cluster0-socket0-core0-schedule: wid=0, PC=0x80000000, tmask=1 (#0)
+[VXDRV] START: program=tests/riscv/atomicity/lr_sc_minimal.bin
+24: [sim] run()
+                  25: cluster0-socket0-core0-schedule: wid=0, PC=0x80000000, tmask=1 (#0)
+                  27: cluster0-socket0-core0-schedule: wid=0, PC=0x80000000, tmask=1 (#0)
+                  29: cluster0-socket0-core0-schedule: wid=0, PC=0x80000000, tmask=1 (#0)
+                  31: cluster0-socket0-core0-schedule: wid=0, PC=0x80000000, tmask=1 (#0)
+                  33: cluster0-socket0-core0-schedule: wid=0, PC=0x80000000, tmask=1 (#0)
+                  35: cluster0-socket0-core0-schedule: wid=0, PC=0x80000000, tmask=1 (#0)
+                  37: cluster0-socket0-core0-schedule: wid=0, PC=0x80000000, tmask=1 (#0)
+                  39: cluster0-socket0-core0-schedule: wid=0, PC=0x80000000, tmask=1 (#0)
+                  41: cluster0-socket0-core0-schedule: wid=0, PC=0x80000000, tmask=1 (#0)
+                  43: cluster0-socket0-core0-schedule: wid=0, PC=0x80000000, tmask=1 (#0)
+                  45: cluster0-socket0-core0-schedule: wid=0, PC=0x80000000, tmask=1 (#0)
+                  47: cluster0-socket0-core0-schedule: wid=0, PC=0x80000000, tmask=1 (#0)
+                  49: cluster0-socket0-dcache0-bank0 tags-init: addr=0x0, line=0
+                  49: cluster0-socket0-icache0-bank0 tags-init: addr=0x0, line=0
+                  49: cluster0-socket0-core0-fetch req: wid=0, PC=0x80000000, tmask=1 (#0)
+                  51: cluster0-socket0-dcache0-bank0 tags-init: addr=0x40, line=1
+                  51: cluster0-socket0-icache0-bank0 tags-init: addr=0x40, line=1
+                  53: cluster0-socket0-dcache0-bank0 tags-init: addr=0x80, line=2
+                  53: cluster0-socket0-icache0-bank0 tags-init: addr=0x80, line=2
+                  55: cluster0-socket0-dcache0-bank0 tags-init: addr=0xc0, line=3
+                  55: cluster0-socket0-icache0-bank0 tags-init: addr=0xc0, line=3
+                  57: cluster0-socket0-dcache0-bank0 tags-init: addr=0x100, line=4
+                  57: cluster0-socket0-icache0-bank0 tags-init: addr=0x100, line=4
+                  59: cluster0-socket0-dcache0-bank0 tags-init: addr=0x140, line=5
+                  59: cluster0-socket0-icache0-bank0 tags-init: addr=0x140, line=5
+                  61: cluster0-socket0-dcache0-bank0 tags-init: addr=0x180, line=6
+                  61: cluster0-socket0-icache0-bank0 tags-init: addr=0x180, line=6
+                  63: cluster0-socket0-dcache0-bank0 tags-init: addr=0x1c0, line=7
+                  63: cluster0-socket0-icache0-bank0 tags-init: addr=0x1c0, line=7
+                  65: cluster0-socket0-dcache0-bank0 tags-init: addr=0x200, line=8
+                  65: cluster0-socket0-icache0-bank0 tags-init: addr=0x200, line=8
+                  67: cluster0-socket0-dcache0-bank0 tags-init: addr=0x240, line=9
+                  67: cluster0-socket0-icache0-bank0 tags-init: addr=0x240, line=9
+                  69: cluster0-socket0-dcache0-bank0 tags-init: addr=0x280, line=10
+                  69: cluster0-socket0-icache0-bank0 tags-init: addr=0x280, line=10
+                  71: cluster0-socket0-dcache0-bank0 tags-init: addr=0x2c0, line=11
+                  71: cluster0-socket0-icache0-bank0 tags-init: addr=0x2c0, line=11
+                  73: cluster0-socket0-dcache0-bank0 tags-init: addr=0x300, line=12
+                  73: cluster0-socket0-icache0-bank0 tags-init: addr=0x300, line=12
+                  75: cluster0-socket0-dcache0-bank0 tags-init: addr=0x340, line=13
+                  75: cluster0-socket0-icache0-bank0 tags-init: addr=0x340, line=13
+                  77: cluster0-socket0-dcache0-bank0 tags-init: addr=0x380, line=14
+                  77: cluster0-socket0-icache0-bank0 tags-init: addr=0x380, line=14
+                  79: cluster0-socket0-dcache0-bank0 tags-init: addr=0x3c0, line=15
+                  79: cluster0-socket0-icache0-bank0 tags-init: addr=0x3c0, line=15
+                  81: cluster0-socket0-dcache0-bank0 tags-init: addr=0x400, line=16
+                  81: cluster0-socket0-icache0-bank0 tags-init: addr=0x400, line=16
+                  83: cluster0-socket0-dcache0-bank0 tags-init: addr=0x440, line=17
+                  83: cluster0-socket0-icache0-bank0 tags-init: addr=0x440, line=17
+                  85: cluster0-socket0-dcache0-bank0 tags-init: addr=0x480, line=18
+                  85: cluster0-socket0-icache0-bank0 tags-init: addr=0x480, line=18
+                  87: cluster0-socket0-dcache0-bank0 tags-init: addr=0x4c0, line=19
+                  87: cluster0-socket0-icache0-bank0 tags-init: addr=0x4c0, line=19
+                  89: cluster0-socket0-dcache0-bank0 tags-init: addr=0x500, line=20
+                  89: cluster0-socket0-icache0-bank0 tags-init: addr=0x500, line=20
+                  91: cluster0-socket0-dcache0-bank0 tags-init: addr=0x540, line=21
+                  91: cluster0-socket0-icache0-bank0 tags-init: addr=0x540, line=21
+                  93: cluster0-socket0-dcache0-bank0 tags-init: addr=0x580, line=22
+                  93: cluster0-socket0-icache0-bank0 tags-init: addr=0x580, line=22
+                  95: cluster0-socket0-dcache0-bank0 tags-init: addr=0x5c0, line=23
+                  95: cluster0-socket0-icache0-bank0 tags-init: addr=0x5c0, line=23
+                  97: cluster0-socket0-dcache0-bank0 tags-init: addr=0x600, line=24
+                  97: cluster0-socket0-icache0-bank0 tags-init: addr=0x600, line=24
+                  99: cluster0-socket0-dcache0-bank0 tags-init: addr=0x640, line=25
+                  99: cluster0-socket0-icache0-bank0 tags-init: addr=0x640, line=25
+                 101: cluster0-socket0-dcache0-bank0 tags-init: addr=0x680, line=26
+                 101: cluster0-socket0-icache0-bank0 tags-init: addr=0x680, line=26
+                 103: cluster0-socket0-dcache0-bank0 tags-init: addr=0x6c0, line=27
+                 103: cluster0-socket0-icache0-bank0 tags-init: addr=0x6c0, line=27
+                 105: cluster0-socket0-dcache0-bank0 tags-init: addr=0x700, line=28
+                 105: cluster0-socket0-icache0-bank0 tags-init: addr=0x700, line=28
+                 107: cluster0-socket0-dcache0-bank0 tags-init: addr=0x740, line=29
+                 107: cluster0-socket0-icache0-bank0 tags-init: addr=0x740, line=29
+                 109: cluster0-socket0-dcache0-bank0 tags-init: addr=0x780, line=30
+                 109: cluster0-socket0-icache0-bank0 tags-init: addr=0x780, line=30
+                 111: cluster0-socket0-dcache0-bank0 tags-init: addr=0x7c0, line=31
+                 111: cluster0-socket0-icache0-bank0 tags-init: addr=0x7c0, line=31
+                 113: cluster0-socket0-dcache0-bank0 tags-init: addr=0x800, line=32
+                 113: cluster0-socket0-icache0-bank0 tags-init: addr=0x800, line=32
+                 115: cluster0-socket0-dcache0-bank0 tags-init: addr=0x840, line=33
+                 115: cluster0-socket0-icache0-bank0 tags-init: addr=0x840, line=33
+                 117: cluster0-socket0-dcache0-bank0 tags-init: addr=0x880, line=34
+                 117: cluster0-socket0-icache0-bank0 tags-init: addr=0x880, line=34
+                 119: cluster0-socket0-dcache0-bank0 tags-init: addr=0x8c0, line=35
+                 119: cluster0-socket0-icache0-bank0 tags-init: addr=0x8c0, line=35
+                 121: cluster0-socket0-dcache0-bank0 tags-init: addr=0x900, line=36
+                 121: cluster0-socket0-icache0-bank0 tags-init: addr=0x900, line=36
+                 123: cluster0-socket0-dcache0-bank0 tags-init: addr=0x940, line=37
+                 123: cluster0-socket0-icache0-bank0 tags-init: addr=0x940, line=37
+                 125: cluster0-socket0-dcache0-bank0 tags-init: addr=0x980, line=38
+                 125: cluster0-socket0-icache0-bank0 tags-init: addr=0x980, line=38
+                 127: cluster0-socket0-dcache0-bank0 tags-init: addr=0x9c0, line=39
+                 127: cluster0-socket0-icache0-bank0 tags-init: addr=0x9c0, line=39
+                 129: cluster0-socket0-dcache0-bank0 tags-init: addr=0xa00, line=40
+                 129: cluster0-socket0-icache0-bank0 tags-init: addr=0xa00, line=40
+                 131: cluster0-socket0-dcache0-bank0 tags-init: addr=0xa40, line=41
+                 131: cluster0-socket0-icache0-bank0 tags-init: addr=0xa40, line=41
+                 133: cluster0-socket0-dcache0-bank0 tags-init: addr=0xa80, line=42
+                 133: cluster0-socket0-icache0-bank0 tags-init: addr=0xa80, line=42
+                 135: cluster0-socket0-dcache0-bank0 tags-init: addr=0xac0, line=43
+                 135: cluster0-socket0-icache0-bank0 tags-init: addr=0xac0, line=43
+                 137: cluster0-socket0-dcache0-bank0 tags-init: addr=0xb00, line=44
+                 137: cluster0-socket0-icache0-bank0 tags-init: addr=0xb00, line=44
+                 139: cluster0-socket0-dcache0-bank0 tags-init: addr=0xb40, line=45
+                 139: cluster0-socket0-icache0-bank0 tags-init: addr=0xb40, line=45
+                 141: cluster0-socket0-dcache0-bank0 tags-init: addr=0xb80, line=46
+                 141: cluster0-socket0-icache0-bank0 tags-init: addr=0xb80, line=46
+                 143: cluster0-socket0-dcache0-bank0 tags-init: addr=0xbc0, line=47
+                 143: cluster0-socket0-icache0-bank0 tags-init: addr=0xbc0, line=47
+                 145: cluster0-socket0-dcache0-bank0 tags-init: addr=0xc00, line=48
+                 145: cluster0-socket0-icache0-bank0 tags-init: addr=0xc00, line=48
+                 147: cluster0-socket0-dcache0-bank0 tags-init: addr=0xc40, line=49
+                 147: cluster0-socket0-icache0-bank0 tags-init: addr=0xc40, line=49
+                 149: cluster0-socket0-dcache0-bank0 tags-init: addr=0xc80, line=50
+                 149: cluster0-socket0-icache0-bank0 tags-init: addr=0xc80, line=50
+                 151: cluster0-socket0-dcache0-bank0 tags-init: addr=0xcc0, line=51
+                 151: cluster0-socket0-icache0-bank0 tags-init: addr=0xcc0, line=51
+                 153: cluster0-socket0-dcache0-bank0 tags-init: addr=0xd00, line=52
+                 153: cluster0-socket0-icache0-bank0 tags-init: addr=0xd00, line=52
+                 155: cluster0-socket0-dcache0-bank0 tags-init: addr=0xd40, line=53
+                 155: cluster0-socket0-icache0-bank0 tags-init: addr=0xd40, line=53
+                 157: cluster0-socket0-dcache0-bank0 tags-init: addr=0xd80, line=54
+                 157: cluster0-socket0-icache0-bank0 tags-init: addr=0xd80, line=54
+                 159: cluster0-socket0-dcache0-bank0 tags-init: addr=0xdc0, line=55
+                 159: cluster0-socket0-icache0-bank0 tags-init: addr=0xdc0, line=55
+                 161: cluster0-socket0-dcache0-bank0 tags-init: addr=0xe00, line=56
+                 161: cluster0-socket0-icache0-bank0 tags-init: addr=0xe00, line=56
+                 163: cluster0-socket0-dcache0-bank0 tags-init: addr=0xe40, line=57
+                 163: cluster0-socket0-icache0-bank0 tags-init: addr=0xe40, line=57
+                 165: cluster0-socket0-dcache0-bank0 tags-init: addr=0xe80, line=58
+                 165: cluster0-socket0-icache0-bank0 tags-init: addr=0xe80, line=58
+                 167: cluster0-socket0-dcache0-bank0 tags-init: addr=0xec0, line=59
+                 167: cluster0-socket0-icache0-bank0 tags-init: addr=0xec0, line=59
+                 169: cluster0-socket0-dcache0-bank0 tags-init: addr=0xf00, line=60
+                 169: cluster0-socket0-icache0-bank0 tags-init: addr=0xf00, line=60
+                 171: cluster0-socket0-dcache0-bank0 tags-init: addr=0xf40, line=61
+                 171: cluster0-socket0-icache0-bank0 tags-init: addr=0xf40, line=61
+                 173: cluster0-socket0-dcache0-bank0 tags-init: addr=0xf80, line=62
+                 173: cluster0-socket0-icache0-bank0 tags-init: addr=0xf80, line=62
+                 175: cluster0-socket0-icache0 core-rd-req[0]: addr=0x80000000, tag=0x0 (#0)
+                 175: cluster0-socket0-dcache0-bank0 tags-init: addr=0xfc0, line=63
+                 175: cluster0-socket0-icache0-bank0 core-rd-req: addr=0x80000000, tag=0x0, req_idx=0 (#0)
+                 175: cluster0-socket0-icache0-bank0 tags-init: addr=0xfc0, line=63
+                 177: cluster0-socket0-icache0-bank0 tags-miss: addr=0x80000000, rw=0, way=0, line=0, tag=0x80000 (#0)
+                 177: cluster0-socket0-icache0-bank0-mshr allocate: addr=0x80000000, id=0, pending=0, prev=15 (#0)
+                 179: cluster0-socket0-icache0-bank0 fill-req: addr=0x80000000, mshr_id=0 (#0)
+                 179: cluster0-socket0-icache0-bank0-mshr table 0=0x80000000(r)
+                 181: cluster0-socket0-icache0 mem-rd-req[0]: addr=0x80000000, tag=0x0 (#0)
+                 181: cluster0-socket0-icache0-bank0-mshr table 0=0x80000000(r)
+                 183: cluster0-l2cache core-rd-req[0]: addr=0x80000000, tag=0x0 (#0)
+                 183: MEM Rd Req[0]: addr=0x80000000, byteen=0xffffffffffffffff, tag=0x0 (#0)
+                 183: l3cache mem-rd-req[0]: addr=0x80000000, tag=0x0 (#0)
+                 183: l3cache core-rd-req[0]: addr=0x80000000, tag=0x0 (#0)
+                 183: cluster0-l2cache mem-rd-req[0]: addr=0x80000000, tag=0x0 (#0)
+                 225: cluster0-l2cache core-rd-rsp[0]: tag=0x0, data=0xbaadf00dbaadf00dbaadf00dbaadf00dbaadf00d0000006f01d2a223eefe8e93deadceb7fe0e1ae31872ae2f001383931002a3af0062a02302a00313800012b7 (#0)
+                 225: MEM Rd Rsp[0]: data=0xbaadf00dbaadf00dbaadf00dbaadf00dbaadf00d0000006f01d2a223eefe8e93deadceb7fe0e1ae31872ae2f001383931002a3af0062a02302a00313800012b7, tag=0x0 (#0)
+                 225: l3cache mem-rd-rsp[0]: data=0xbaadf00dbaadf00dbaadf00dbaadf00dbaadf00d0000006f01d2a223eefe8e93deadceb7fe0e1ae31872ae2f001383931002a3af0062a02302a00313800012b7, tag=0x0 (#0)
+                 225: l3cache core-rd-rsp[0]: tag=0x0, data=0xbaadf00dbaadf00dbaadf00dbaadf00dbaadf00d0000006f01d2a223eefe8e93deadceb7fe0e1ae31872ae2f001383931002a3af0062a02302a00313800012b7 (#0)
+                 225: cluster0-l2cache mem-rd-rsp[0]: data=0xbaadf00dbaadf00dbaadf00dbaadf00dbaadf00d0000006f01d2a223eefe8e93deadceb7fe0e1ae31872ae2f001383931002a3af0062a02302a00313800012b7, tag=0x0 (#0)
+                 227: cluster0-socket0-icache0 mem-rd-rsp[0]: data=0xbaadf00dbaadf00dbaadf00dbaadf00dbaadf00d0000006f01d2a223eefe8e93deadceb7fe0e1ae31872ae2f001383931002a3af0062a02302a00313800012b7, tag=0x0 (#0)
+                 229: cluster0-socket0-icache0-bank0 fill-rsp: addr=0x80000000, mshr_id=0, data=0xbaadf00dbaadf00dbaadf00dbaadf00dbaadf00d0000006f01d2a223eefe8e93deadceb7fe0e1ae31872ae2f001383931002a3af0062a02302a00313800012b7 (#0)
+                 229: cluster0-socket0-icache0-bank0-mshr fill: addr=0x80000000, id=0
+                 231: cluster0-socket0-icache0-bank0 mshr-pop: addr=0x80000000, tag=0x0, req_idx=0 (#0)
+                 231: cluster0-socket0-icache0-bank0 tags-fill: addr=0x80000000, way=0, line=0, dirty=0 (#0)
+                 231: cluster0-socket0-icache0-bank0 data-fill: addr=0x80000000, way=0, line=0, data=0xbaadf00dbaadf00dbaadf00dbaadf00dbaadf00d0000006f01d2a223eefe8e93deadceb7fe0e1ae31872ae2f001383931002a3af0062a02302a00313800012b7 (#0)
+                 231: cluster0-socket0-icache0-bank0-mshr dequeue: addr=0x80000000, id=0 (#0)
+                 231: cluster0-socket0-icache0-bank0-mshr table 0=0x80000000(r)
+                 233: cluster0-socket0-icache0-bank0 tags-hit: addr=0x80000000, rw=0, way=0, line=0, tag=0x80000 (#0)
+                 233: cluster0-socket0-icache0-bank0-mshr table
+                 235: cluster0-socket0-icache0-bank0 data-read: addr=0x80000000, way=0, line=0, wsel=0, data=0x800012b7 (#0)
+                 235: cluster0-socket0-icache0-bank0 core-rd-rsp: addr=0x80000000, tag=0x0, req_idx=0, data=0x800012b7 (#0)
+                 237: cluster0-socket0-icache0 core-rd-rsp[0]: tag=0x0, data=0x800012b7 (#0)
+                 237: cluster0-socket0-core0-fetch rsp: wid=0, PC=0x80000000, tmask=1, instr=0x800012b7 (#0)
+                 239: cluster0-socket0-core0-schedule: wid=0, PC=0x80000004, tmask=1 (#1)
+                 239: cluster0-socket0-core0-issue0-ibuffer: wid=0, PC=0x80000000, ex=ALU, op=LUI, tmask=1, wb=1, used_rs=000, rd=5, rs1=51, rs2=7, rs3=29, use_PC=0, use_imm=1, imm=0x80001000 (#0)
+                 241: cluster0-socket0-core0-fetch req: wid=0, PC=0x80000004, tmask=1 (#1)
+                 243: cluster0-socket0-icache0 core-rd-req[0]: addr=0x80000004, tag=0x0 (#1)
+                 243: cluster0-socket0-icache0-bank0 core-rd-req: addr=0x80000000, tag=0x2, req_idx=0 (#1)
+                 245: cluster0-socket0-icache0-bank0 tags-hit: addr=0x80000000, rw=0, way=0, line=0, tag=0x80000 (#1)
+                 245: cluster0-socket0-icache0-bank0-mshr allocate: addr=0x80000000, id=0, pending=0, prev=15 (#1)
+                 247: cluster0-socket0-icache0-bank0 data-read: addr=0x80000000, way=0, line=0, wsel=1, data=0x02a00313 (#1)
+                 247: cluster0-socket0-icache0-bank0 core-rd-rsp: addr=0x80000000, tag=0x2, req_idx=0, data=0x02a00313 (#1)
+                 247: cluster0-socket0-icache0-bank0-mshr release: id=0 (#1)
+                 247: cluster0-socket0-icache0-bank0-mshr table 0=0x80000000(r)
+                 249: cluster0-socket0-icache0 core-rd-rsp[0]: tag=0x0, data=0x02a00313 (#1)
+                 249: cluster0-socket0-core0-issue0-dispatch: wid=0, sid=0, PC=0x80000000, ex=ALU, op=LUI, tmask=1, wb=1, rd=5, rs1_data={0x0}, rs2_data={0x0}, rs3_data={0x0}, use_PC=0, use_imm=1, imm=0x80001000, sop=1, eop=1 (#0)
+                 249: cluster0-socket0-core0-fetch rsp: wid=0, PC=0x80000004, tmask=1, instr=0x2a00313 (#1)
+                 249: cluster0-socket0-icache0-bank0-mshr table
+                 251: cluster0-socket0-core0-schedule: wid=0, PC=0x80000008, tmask=1 (#2)
+                 251: cluster0-socket0-core0-issue0-ibuffer: wid=0, PC=0x80000004, ex=ALU, op=ADDI, tmask=1, wb=1, used_rs=001, rd=6, rs1=0, rs2=7, rs3=29, use_PC=0, use_imm=1, imm=0x2a (#1)
+                 253: cluster0-socket0-core0-fetch req: wid=0, PC=0x80000008, tmask=1 (#2)
+                 255: cluster0-socket0-icache0 core-rd-req[0]: addr=0x80000008, tag=0x0 (#2)
+                 255: cluster0-socket0-icache0-bank0 core-rd-req: addr=0x80000000, tag=0x4, req_idx=0 (#2)
+                 255: cluster0-socket0-core0-commit: wid=0, sid=0, PC=0x80000000, ex=ALU, tmask=1, wb=1, rd=5, sop=1, eop=1, data={0x80001000} (#0)
+                 257: cluster0-socket0-icache0-bank0 tags-hit: addr=0x80000000, rw=0, way=0, line=0, tag=0x80000 (#2)
+                 257: cluster0-socket0-icache0-bank0-mshr allocate: addr=0x80000000, id=0, pending=0, prev=15 (#2)
+                 259: cluster0-socket0-icache0-bank0 data-read: addr=0x80000000, way=0, line=0, wsel=2, data=0x0062a023 (#2)
+                 259: cluster0-socket0-icache0-bank0 core-rd-rsp: addr=0x80000000, tag=0x4, req_idx=0, data=0x0062a023 (#2)
+                 259: cluster0-socket0-icache0-bank0-mshr release: id=0 (#2)
+                 259: cluster0-socket0-icache0-bank0-mshr table 0=0x80000000(r)
+                 261: cluster0-socket0-icache0 core-rd-rsp[0]: tag=0x0, data=0x0062a023 (#2)
+                 261: cluster0-socket0-core0-issue0-dispatch: wid=0, sid=0, PC=0x80000004, ex=ALU, op=ADDI, tmask=1, wb=1, rd=6, rs1_data={0x0}, rs2_data={0x0}, rs3_data={0x0}, use_PC=0, use_imm=1, imm=0x2a, sop=1, eop=1 (#1)
+                 261: cluster0-socket0-core0-fetch rsp: wid=0, PC=0x80000008, tmask=1, instr=0x62a023 (#2)
+                 261: cluster0-socket0-icache0-bank0-mshr table
+                 263: cluster0-socket0-core0-schedule: wid=0, PC=0x8000000c, tmask=1 (#3)
+                 263: cluster0-socket0-core0-issue0-ibuffer: wid=0, PC=0x80000008, ex=LSU, op=SW, tmask=1, wb=0, used_rs=011, rd=14, rs1=5, rs2=6, rs3=29, offset=0x0 (#2)
+                 265: cluster0-socket0-core0-fetch req: wid=0, PC=0x8000000c, tmask=1 (#3)
+                 267: cluster0-socket0-icache0 core-rd-req[0]: addr=0x8000000c, tag=0x0 (#3)
+                 267: cluster0-socket0-icache0-bank0 core-rd-req: addr=0x80000000, tag=0x6, req_idx=0 (#3)
+                 267: cluster0-socket0-core0-commit: wid=0, sid=0, PC=0x80000004, ex=ALU, tmask=1, wb=1, rd=6, sop=1, eop=1, data={0x2a} (#1)
+                 269: cluster0-socket0-icache0-bank0 tags-hit: addr=0x80000000, rw=0, way=0, line=0, tag=0x80000 (#3)
+                 269: cluster0-socket0-icache0-bank0-mshr allocate: addr=0x80000000, id=0, pending=0, prev=15 (#3)
+                 271: cluster0-socket0-icache0-bank0 data-read: addr=0x80000000, way=0, line=0, wsel=3, data=0x1002a3af (#3)
+                 271: cluster0-socket0-icache0-bank0 core-rd-rsp: addr=0x80000000, tag=0x6, req_idx=0, data=0x1002a3af (#3)
+                 271: cluster0-socket0-icache0-bank0-mshr release: id=0 (#3)
+                 271: cluster0-socket0-icache0-bank0-mshr table 0=0x80000000(r)
+                 273: cluster0-socket0-icache0 core-rd-rsp[0]: tag=0x0, data=0x1002a3af (#3)
+                 273: cluster0-socket0-core0-fetch rsp: wid=0, PC=0x8000000c, tmask=1, instr=0x1002a3af (#3)
+                 273: cluster0-socket0-icache0-bank0-mshr table
+                 275: cluster0-socket0-core0-issue0-ibuffer: wid=0, PC=0x8000000c, ex=LSU, op=?, tmask=1, wb=1, used_rs=001, rd=7, rs1=5, rs2=7, rs3=29, offset=0x0 (#3)
+                 279: cluster0-socket0-core0-issue0-dispatch: wid=0, sid=0, PC=0x80000008, ex=LSU, op=SW, tmask=1, wb=0, rd=14, rs1_data={0x80001000}, rs2_data={0x2a}, rs3_data={0x0}, offset=0x0, sop=1, eop=1 (#2)
+                 283: cluster0-socket0-core0-execute-lsu0-memsched core-req-wr: valid=1, addr={0x20000400}, byteen={0xf}, data={0x2a}, tag=0x4800000081d40 (#2)
+                 283: cluster0-socket0-core0-execute-lsu0 Wr Req: wid=0, PC=0x80000008, tmask=1, addr={0x80001000}, flags={00000000000000}, byteen=0xf, data={0x2a}, sop=0, pid=1, eop=1, tag=0x4800000081d40 (#2)
+                 285: cluster0-socket0-core0-execute-lsu0-memsched mem-req-wr: valid=1, addr={0x20000400}, byteen={0xf}, data={0x2a}, ibuf_idx=0, batch_idx=0 (#2)
+                 285: cluster0-socket0-core0-issue0-dispatch: wid=0, sid=0, PC=0x8000000c, ex=LSU, op=?, tmask=1, wb=1, rd=7, rs1_data={0x80001000}, rs2_data={0x0}, rs3_data={0x0}, offset=0x0, sop=1, eop=1 (#3)
+                 287: cluster0-socket0-dcache0 core-wr-req[0]: addr=0x80001000, tag=0x0, byteen=0xf, data=0x0000002a (#2)
+                 287: cluster0-socket0-dcache0-bank0 core-wr-req: addr=0x80001000, tag=0x4, req_idx=0, byteen=0xf, data=0x0000002a (#2)
+                 289: cluster0-socket0-core0-execute-lsu0-memsched core-req-rd: valid=1, addr={0x20000400}, tag=0x68000000c8ee0 (#3)
+                 289: cluster0-socket0-dcache0-bank0 tags-miss: addr=0x80001000, rw=1, way=0, line=0, tag=0x80001 (#2)
+                 289: cluster0-socket0-core0-commit: wid=0, sid=0, PC=0x80000008, ex=LSU, tmask=1, wb=0, rd=0, sop=1, eop=1, data={0xcd5b2fa} (#2)
+                 289: cluster0-socket0-core0-execute-lsu0 Rd Req: wid=0, PC=0x8000000c, tmask=1, addr={0x80001000}, flags={00000000101000}, byteen=0xf, rd=7, pid=0, sop=1, eop=1, tag=0x68000000c8ee0 (#3)
+                 289: cluster0-socket0-dcache0-bank0-mshr allocate: addr=0x80001000, id=0, pending=0, prev=15 (#2)
+                 291: cluster0-socket0-core0-execute-lsu0-memsched mem-req-rd: valid=1, addr={0x20000400}, ibuf_idx=0, batch_idx=0 (#3)
+                 291: cluster0-socket0-dcache0-bank0 writethrough: addr=0x80001000, byteen=0x000000000000000f, data=0x0000002a0000002a0000002a0000002a0000002a0000002a0000002a0000002a0000002a0000002a0000002a0000002a0000002a0000002a0000002a0000002a (#2)
+                 291: cluster0-socket0-dcache0-bank0-mshr release: id=0 (#2)
+                 291: cluster0-socket0-dcache0-bank0-mshr table 0=0x80001000(w)
+                 293: cluster0-socket0-dcache0 core-rd-req[0]: addr=0x80001000, tag=0x0 (#3)
+                 293: [VX_amo_unit-0] State: AMO_IDLE, is_amo=1, core_req_v=1, core_req_r=1, cache_req_v=0, cache_req_r=1, core_rsp_v=0, core_rsp_r=0, cache_rsp_v=0, cache_rsp_r=0, amo_op=00, addr=0000000, gtid=0, wdata=00000000, rdata=00000000, new_data=00000000, sc_succ=0
+                 293: cluster0-socket0-dcache0-bank0-mshr table
+                 295: cluster0-socket0-dcache0 mem-wr-req[0]: addr=0x80001000, tag=0x1, byteen=0x000000000000000f, data=0x0000002a0000002a0000002a0000002a0000002a0000002a0000002a0000002a0000002a0000002a0000002a0000002a0000002a0000002a0000002a0000002a (#2)
+                 295: [VX_amo_unit-0] State: AMO_LR_PROCESS, is_amo=0, core_req_v=0, core_req_r=0, cache_req_v=0, cache_req_r=1, core_rsp_v=0, core_rsp_r=0, cache_rsp_v=0, cache_rsp_r=0, amo_op=02, addr=2000040, gtid=0, wdata=00000000, rdata=00000000, new_data=00000000, sc_succ=0
+                 297: cluster0-l2cache core-wr-req[0]: addr=0x80001000, tag=0x3, byteen=0x000000000000000f, data=0x0000002a0000002a0000002a0000002a0000002a0000002a0000002a0000002a0000002a0000002a0000002a0000002a0000002a0000002a0000002a0000002a (#2)
+                 297: MEM Wr Req[0]: addr=0x80001000, byteen=0x000000000000000f data=0x0000002a0000002a0000002a0000002a0000002a0000002a0000002a0000002a0000002a0000002a0000002a0000002a0000002a0000002a0000002a0000002a, tag=0x3 (#2)
+                 297: l3cache mem-wr-req[0]: addr=0x80001000, tag=0x3, byteen=0x000000000000000f, data=0x0000002a0000002a0000002a0000002a0000002a0000002a0000002a0000002a0000002a0000002a0000002a0000002a0000002a0000002a0000002a0000002a (#2)
+                 297: l3cache core-wr-req[0]: addr=0x80001000, tag=0x3, byteen=0x000000000000000f, data=0x0000002a0000002a0000002a0000002a0000002a0000002a0000002a0000002a0000002a0000002a0000002a0000002a0000002a0000002a0000002a0000002a (#2)
+                 297: cluster0-l2cache mem-wr-req[0]: addr=0x80001000, tag=0x3, byteen=0x000000000000000f, data=0x0000002a0000002a0000002a0000002a0000002a0000002a0000002a0000002a0000002a0000002a0000002a0000002a0000002a0000002a0000002a0000002a (#2)
+                 297: [VX_amo_unit-0] State: AMO_READ, is_amo=0, core_req_v=0, core_req_r=0, cache_req_v=1, cache_req_r=1, core_rsp_v=0, core_rsp_r=0, cache_rsp_v=0, cache_rsp_r=0, amo_op=02, addr=2000040, gtid=0, wdata=00000000, rdata=00000000, new_data=00000000, sc_succ=0
+                 297: cluster0-socket0-dcache0-bank0 core-rd-req: addr=0x80001000, tag=0x6, req_idx=0 (#3)
+                 299: [VX_amo_unit-0] State: AMO_WAIT_READ, is_amo=0, core_req_v=0, core_req_r=0, cache_req_v=0, cache_req_r=1, core_rsp_v=0, core_rsp_r=0, cache_rsp_v=0, cache_rsp_r=1, amo_op=02, addr=2000040, gtid=0, wdata=00000000, rdata=00000000, new_data=00000000, sc_succ=0
+                 299: cluster0-socket0-dcache0-bank0 tags-miss: addr=0x80001000, rw=0, way=0, line=0, tag=0x80001 (#3)
+                 299: cluster0-socket0-dcache0-bank0-mshr allocate: addr=0x80001000, id=0, pending=0, prev=15 (#3)
+                 301: [VX_amo_unit-0] State: AMO_WAIT_READ, is_amo=0, core_req_v=0, core_req_r=0, cache_req_v=0, cache_req_r=1, core_rsp_v=0, core_rsp_r=0, cache_rsp_v=0, cache_rsp_r=1, amo_op=02, addr=2000040, gtid=0, wdata=00000000, rdata=00000000, new_data=00000000, sc_succ=0
+                 301: cluster0-socket0-dcache0-bank0 fill-req: addr=0x80001000, mshr_id=0 (#3)
+                 301: cluster0-socket0-dcache0-bank0-mshr table 0=0x80001000(r)
+                 303: [VX_amo_unit-0] State: AMO_WAIT_READ, is_amo=0, core_req_v=0, core_req_r=0, cache_req_v=0, cache_req_r=1, core_rsp_v=0, core_rsp_r=0, cache_rsp_v=0, cache_rsp_r=1, amo_op=02, addr=2000040, gtid=0, wdata=00000000, rdata=00000000, new_data=00000000, sc_succ=0
+                 303: cluster0-socket0-dcache0-bank0-mshr table 0=0x80001000(r)
+                 305: cluster0-socket0-dcache0 mem-rd-req[0]: addr=0x80001000, tag=0x1 (#3)
+                 305: [VX_amo_unit-0] State: AMO_WAIT_READ, is_amo=0, core_req_v=0, core_req_r=0, cache_req_v=0, cache_req_r=1, core_rsp_v=0, core_rsp_r=0, cache_rsp_v=0, cache_rsp_r=1, amo_op=02, addr=2000040, gtid=0, wdata=00000000, rdata=00000000, new_data=00000000, sc_succ=0
+                 307: cluster0-l2cache core-rd-req[0]: addr=0x80001000, tag=0x3 (#3)
+                 307: MEM Rd Req[0]: addr=0x80001000, byteen=0xffffffffffffffff, tag=0x3 (#3)
+                 307: l3cache mem-rd-req[0]: addr=0x80001000, tag=0x3 (#3)
+                 307: l3cache core-rd-req[0]: addr=0x80001000, tag=0x3 (#3)
+                 307: cluster0-l2cache mem-rd-req[0]: addr=0x80001000, tag=0x3 (#3)
+                 307: [VX_amo_unit-0] State: AMO_WAIT_READ, is_amo=0, core_req_v=0, core_req_r=0, cache_req_v=0, cache_req_r=1, core_rsp_v=0, core_rsp_r=0, cache_rsp_v=0, cache_rsp_r=1, amo_op=02, addr=2000040, gtid=0, wdata=00000000, rdata=00000000, new_data=00000000, sc_succ=0
+                 309: [VX_amo_unit-0] State: AMO_WAIT_READ, is_amo=0, core_req_v=0, core_req_r=0, cache_req_v=0, cache_req_r=1, core_rsp_v=0, core_rsp_r=0, cache_rsp_v=0, cache_rsp_r=1, amo_op=02, addr=2000040, gtid=0, wdata=00000000, rdata=00000000, new_data=00000000, sc_succ=0
+                 311: [VX_amo_unit-0] State: AMO_WAIT_READ, is_amo=0, core_req_v=0, core_req_r=0, cache_req_v=0, cache_req_r=1, core_rsp_v=0, core_rsp_r=0, cache_rsp_v=0, cache_rsp_r=1, amo_op=02, addr=2000040, gtid=0, wdata=00000000, rdata=00000000, new_data=00000000, sc_succ=0
+                 313: [VX_amo_unit-0] State: AMO_WAIT_READ, is_amo=0, core_req_v=0, core_req_r=0, cache_req_v=0, cache_req_r=1, core_rsp_v=0, core_rsp_r=0, cache_rsp_v=0, cache_rsp_r=1, amo_op=02, addr=2000040, gtid=0, wdata=00000000, rdata=00000000, new_data=00000000, sc_succ=0
+                 315: [VX_amo_unit-0] State: AMO_WAIT_READ, is_amo=0, core_req_v=0, core_req_r=0, cache_req_v=0, cache_req_r=1, core_rsp_v=0, core_rsp_r=0, cache_rsp_v=0, cache_rsp_r=1, amo_op=02, addr=2000040, gtid=0, wdata=00000000, rdata=00000000, new_data=00000000, sc_succ=0
+                 317: [VX_amo_unit-0] State: AMO_WAIT_READ, is_amo=0, core_req_v=0, core_req_r=0, cache_req_v=0, cache_req_r=1, core_rsp_v=0, core_rsp_r=0, cache_rsp_v=0, cache_rsp_r=1, amo_op=02, addr=2000040, gtid=0, wdata=00000000, rdata=00000000, new_data=00000000, sc_succ=0
+                 319: [VX_amo_unit-0] State: AMO_WAIT_READ, is_amo=0, core_req_v=0, core_req_r=0, cache_req_v=0, cache_req_r=1, core_rsp_v=0, core_rsp_r=0, cache_rsp_v=0, cache_rsp_r=1, amo_op=02, addr=2000040, gtid=0, wdata=00000000, rdata=00000000, new_data=00000000, sc_succ=0
+                 321: [VX_amo_unit-0] State: AMO_WAIT_READ, is_amo=0, core_req_v=0, core_req_r=0, cache_req_v=0, cache_req_r=1, core_rsp_v=0, core_rsp_r=0, cache_rsp_v=0, cache_rsp_r=1, amo_op=02, addr=2000040, gtid=0, wdata=00000000, rdata=00000000, new_data=00000000, sc_succ=0
+                 323: [VX_amo_unit-0] State: AMO_WAIT_READ, is_amo=0, core_req_v=0, core_req_r=0, cache_req_v=0, cache_req_r=1, core_rsp_v=0, core_rsp_r=0, cache_rsp_v=0, cache_rsp_r=1, amo_op=02, addr=2000040, gtid=0, wdata=00000000, rdata=00000000, new_data=00000000, sc_succ=0
+                 325: [VX_amo_unit-0] State: AMO_WAIT_READ, is_amo=0, core_req_v=0, core_req_r=0, cache_req_v=0, cache_req_r=1, core_rsp_v=0, core_rsp_r=0, cache_rsp_v=0, cache_rsp_r=1, amo_op=02, addr=2000040, gtid=0, wdata=00000000, rdata=00000000, new_data=00000000, sc_succ=0
+                 327: [VX_amo_unit-0] State: AMO_WAIT_READ, is_amo=0, core_req_v=0, core_req_r=0, cache_req_v=0, cache_req_r=1, core_rsp_v=0, core_rsp_r=0, cache_rsp_v=0, cache_rsp_r=1, amo_op=02, addr=2000040, gtid=0, wdata=00000000, rdata=00000000, new_data=00000000, sc_succ=0
+                 329: [VX_amo_unit-0] State: AMO_WAIT_READ, is_amo=0, core_req_v=0, core_req_r=0, cache_req_v=0, cache_req_r=1, core_rsp_v=0, core_rsp_r=0, cache_rsp_v=0, cache_rsp_r=1, amo_op=02, addr=2000040, gtid=0, wdata=00000000, rdata=00000000, new_data=00000000, sc_succ=0
+                 331: [VX_amo_unit-0] State: AMO_WAIT_READ, is_amo=0, core_req_v=0, core_req_r=0, cache_req_v=0, cache_req_r=1, core_rsp_v=0, core_rsp_r=0, cache_rsp_v=0, cache_rsp_r=1, amo_op=02, addr=2000040, gtid=0, wdata=00000000, rdata=00000000, new_data=00000000, sc_succ=0
+                 333: [VX_amo_unit-0] State: AMO_WAIT_READ, is_amo=0, core_req_v=0, core_req_r=0, cache_req_v=0, cache_req_r=1, core_rsp_v=0, core_rsp_r=0, cache_rsp_v=0, cache_rsp_r=1, amo_op=02, addr=2000040, gtid=0, wdata=00000000, rdata=00000000, new_data=00000000, sc_succ=0
+                 335: [VX_amo_unit-0] State: AMO_WAIT_READ, is_amo=0, core_req_v=0, core_req_r=0, cache_req_v=0, cache_req_r=1, core_rsp_v=0, core_rsp_r=0, cache_rsp_v=0, cache_rsp_r=1, amo_op=02, addr=2000040, gtid=0, wdata=00000000, rdata=00000000, new_data=00000000, sc_succ=0
+                 337: [VX_amo_unit-0] State: AMO_WAIT_READ, is_amo=0, core_req_v=0, core_req_r=0, cache_req_v=0, cache_req_r=1, core_rsp_v=0, core_rsp_r=0, cache_rsp_v=0, cache_rsp_r=1, amo_op=02, addr=2000040, gtid=0, wdata=00000000, rdata=00000000, new_data=00000000, sc_succ=0
+                 339: [VX_amo_unit-0] State: AMO_WAIT_READ, is_amo=0, core_req_v=0, core_req_r=0, cache_req_v=0, cache_req_r=1, core_rsp_v=0, core_rsp_r=0, cache_rsp_v=0, cache_rsp_r=1, amo_op=02, addr=2000040, gtid=0, wdata=00000000, rdata=00000000, new_data=00000000, sc_succ=0
+                 341: [VX_amo_unit-0] State: AMO_WAIT_READ, is_amo=0, core_req_v=0, core_req_r=0, cache_req_v=0, cache_req_r=1, core_rsp_v=0, core_rsp_r=0, cache_rsp_v=0, cache_rsp_r=1, amo_op=02, addr=2000040, gtid=0, wdata=00000000, rdata=00000000, new_data=00000000, sc_succ=0
+                 343: [VX_amo_unit-0] State: AMO_WAIT_READ, is_amo=0, core_req_v=0, core_req_r=0, cache_req_v=0, cache_req_r=1, core_rsp_v=0, core_rsp_r=0, cache_rsp_v=0, cache_rsp_r=1, amo_op=02, addr=2000040, gtid=0, wdata=00000000, rdata=00000000, new_data=00000000, sc_succ=0
+                 345: [VX_amo_unit-0] State: AMO_WAIT_READ, is_amo=0, core_req_v=0, core_req_r=0, cache_req_v=0, cache_req_r=1, core_rsp_v=0, core_rsp_r=0, cache_rsp_v=0, cache_rsp_r=1, amo_op=02, addr=2000040, gtid=0, wdata=00000000, rdata=00000000, new_data=00000000, sc_succ=0
+                 347: [VX_amo_unit-0] State: AMO_WAIT_READ, is_amo=0, core_req_v=0, core_req_r=0, cache_req_v=0, cache_req_r=1, core_rsp_v=0, core_rsp_r=0, cache_rsp_v=0, cache_rsp_r=1, amo_op=02, addr=2000040, gtid=0, wdata=00000000, rdata=00000000, new_data=00000000, sc_succ=0
+                 349: [VX_amo_unit-0] State: AMO_WAIT_READ, is_amo=0, core_req_v=0, core_req_r=0, cache_req_v=0, cache_req_r=1, core_rsp_v=0, core_rsp_r=0, cache_rsp_v=0, cache_rsp_r=1, amo_op=02, addr=2000040, gtid=0, wdata=00000000, rdata=00000000, new_data=00000000, sc_succ=0
+                 351: [VX_amo_unit-0] State: AMO_WAIT_READ, is_amo=0, core_req_v=0, core_req_r=0, cache_req_v=0, cache_req_r=1, core_rsp_v=0, core_rsp_r=0, cache_rsp_v=0, cache_rsp_r=1, amo_op=02, addr=2000040, gtid=0, wdata=00000000, rdata=00000000, new_data=00000000, sc_succ=0
+                 353: [VX_amo_unit-0] State: AMO_WAIT_READ, is_amo=0, core_req_v=0, core_req_r=0, cache_req_v=0, cache_req_r=1, core_rsp_v=0, core_rsp_r=0, cache_rsp_v=0, cache_rsp_r=1, amo_op=02, addr=2000040, gtid=0, wdata=00000000, rdata=00000000, new_data=00000000, sc_succ=0
+                 355: [VX_amo_unit-0] State: AMO_WAIT_READ, is_amo=0, core_req_v=0, core_req_r=0, cache_req_v=0, cache_req_r=1, core_rsp_v=0, core_rsp_r=0, cache_rsp_v=0, cache_rsp_r=1, amo_op=02, addr=2000040, gtid=0, wdata=00000000, rdata=00000000, new_data=00000000, sc_succ=0
+                 357: [VX_amo_unit-0] State: AMO_WAIT_READ, is_amo=0, core_req_v=0, core_req_r=0, cache_req_v=0, cache_req_r=1, core_rsp_v=0, core_rsp_r=0, cache_rsp_v=0, cache_rsp_r=1, amo_op=02, addr=2000040, gtid=0, wdata=00000000, rdata=00000000, new_data=00000000, sc_succ=0
+                 359: cluster0-l2cache core-rd-rsp[0]: tag=0x3, data=0xbaadf00dbaadf00dbaadf00dbaadf00dbaadf00dbaadf00dbaadf00dbaadf00dbaadf00dbaadf00dbaadf00dbaadf00dbaadf00dbaadf00dbaadf00d0000002a (#3)
+                 359: MEM Rd Rsp[0]: data=0xbaadf00dbaadf00dbaadf00dbaadf00dbaadf00dbaadf00dbaadf00dbaadf00dbaadf00dbaadf00dbaadf00dbaadf00dbaadf00dbaadf00dbaadf00d0000002a, tag=0x3 (#3)
+                 359: l3cache mem-rd-rsp[0]: data=0xbaadf00dbaadf00dbaadf00dbaadf00dbaadf00dbaadf00dbaadf00dbaadf00dbaadf00dbaadf00dbaadf00dbaadf00dbaadf00dbaadf00dbaadf00d0000002a, tag=0x3 (#3)
+                 359: l3cache core-rd-rsp[0]: tag=0x3, data=0xbaadf00dbaadf00dbaadf00dbaadf00dbaadf00dbaadf00dbaadf00dbaadf00dbaadf00dbaadf00dbaadf00dbaadf00dbaadf00dbaadf00dbaadf00d0000002a (#3)
+                 359: cluster0-l2cache mem-rd-rsp[0]: data=0xbaadf00dbaadf00dbaadf00dbaadf00dbaadf00dbaadf00dbaadf00dbaadf00dbaadf00dbaadf00dbaadf00dbaadf00dbaadf00dbaadf00dbaadf00d0000002a, tag=0x3 (#3)
+                 359: [VX_amo_unit-0] State: AMO_WAIT_READ, is_amo=0, core_req_v=0, core_req_r=0, cache_req_v=0, cache_req_r=1, core_rsp_v=0, core_rsp_r=0, cache_rsp_v=0, cache_rsp_r=1, amo_op=02, addr=2000040, gtid=0, wdata=00000000, rdata=00000000, new_data=00000000, sc_succ=0
+                 361: cluster0-socket0-dcache0 mem-rd-rsp[0]: data=0xbaadf00dbaadf00dbaadf00dbaadf00dbaadf00dbaadf00dbaadf00dbaadf00dbaadf00dbaadf00dbaadf00dbaadf00dbaadf00dbaadf00dbaadf00d0000002a, tag=0x1 (#3)
+                 361: [VX_amo_unit-0] State: AMO_WAIT_READ, is_amo=0, core_req_v=0, core_req_r=0, cache_req_v=0, cache_req_r=1, core_rsp_v=0, core_rsp_r=0, cache_rsp_v=0, cache_rsp_r=1, amo_op=02, addr=2000040, gtid=0, wdata=00000000, rdata=00000000, new_data=00000000, sc_succ=0
+                 363: [VX_amo_unit-0] State: AMO_WAIT_READ, is_amo=0, core_req_v=0, core_req_r=0, cache_req_v=0, cache_req_r=1, core_rsp_v=0, core_rsp_r=0, cache_rsp_v=0, cache_rsp_r=1, amo_op=02, addr=2000040, gtid=0, wdata=00000000, rdata=00000000, new_data=00000000, sc_succ=0
+                 365: [VX_amo_unit-0] State: AMO_WAIT_READ, is_amo=0, core_req_v=0, core_req_r=0, cache_req_v=0, cache_req_r=0, core_rsp_v=0, core_rsp_r=0, cache_rsp_v=0, cache_rsp_r=1, amo_op=02, addr=2000040, gtid=0, wdata=00000000, rdata=00000000, new_data=00000000, sc_succ=0
+                 365: cluster0-socket0-dcache0-bank0 fill-rsp: addr=0x80001000, mshr_id=0, data=0xbaadf00dbaadf00dbaadf00dbaadf00dbaadf00dbaadf00dbaadf00dbaadf00dbaadf00dbaadf00dbaadf00dbaadf00dbaadf00dbaadf00dbaadf00d0000002a (#3)
+                 365: cluster0-socket0-dcache0-bank0-mshr fill: addr=0x80001000, id=0
+                 367: [VX_amo_unit-0] State: AMO_WAIT_READ, is_amo=0, core_req_v=0, core_req_r=0, cache_req_v=0, cache_req_r=0, core_rsp_v=0, core_rsp_r=0, cache_rsp_v=0, cache_rsp_r=1, amo_op=02, addr=2000040, gtid=0, wdata=00000000, rdata=00000000, new_data=00000000, sc_succ=0
+                 367: cluster0-socket0-dcache0-bank0 mshr-pop: addr=0x80001000, tag=0x6, req_idx=0 (#3)
+                 367: cluster0-socket0-dcache0-bank0 tags-fill: addr=0x80001000, way=0, line=0, dirty=0 (#3)
+                 367: cluster0-socket0-dcache0-bank0 data-fill: addr=0x80001000, way=0, line=0, data=0xbaadf00dbaadf00dbaadf00dbaadf00dbaadf00dbaadf00dbaadf00dbaadf00dbaadf00dbaadf00dbaadf00dbaadf00dbaadf00dbaadf00dbaadf00d0000002a (#3)
+                 367: cluster0-socket0-dcache0-bank0-mshr dequeue: addr=0x80001000, id=0 (#3)
+                 367: cluster0-socket0-dcache0-bank0-mshr table 0=0x80001000(r)
+                 369: [VX_amo_unit-0] State: AMO_WAIT_READ, is_amo=0, core_req_v=0, core_req_r=0, cache_req_v=0, cache_req_r=1, core_rsp_v=0, core_rsp_r=0, cache_rsp_v=0, cache_rsp_r=1, amo_op=02, addr=2000040, gtid=0, wdata=00000000, rdata=00000000, new_data=00000000, sc_succ=0
+                 369: cluster0-socket0-dcache0-bank0 tags-hit: addr=0x80001000, rw=0, way=0, line=0, tag=0x80001 (#3)
+                 369: cluster0-socket0-dcache0-bank0-mshr table
+                 371: [VX_amo_unit-0] State: AMO_WAIT_READ, is_amo=0, core_req_v=0, core_req_r=0, cache_req_v=0, cache_req_r=1, core_rsp_v=0, core_rsp_r=0, cache_rsp_v=0, cache_rsp_r=1, amo_op=02, addr=2000040, gtid=0, wdata=00000000, rdata=00000000, new_data=00000000, sc_succ=0
+                 371: cluster0-socket0-dcache0-bank0 data-read: addr=0x80001000, way=0, line=0, wsel=0, data=0x0000002a (#3)
+                 371: cluster0-socket0-dcache0-bank0 core-rd-rsp: addr=0x80001000, tag=0x6, req_idx=0, data=0x0000002a (#3)
+                 373: [VX_amo_unit-0] State: AMO_WAIT_READ, is_amo=0, core_req_v=0, core_req_r=0, cache_req_v=0, cache_req_r=1, core_rsp_v=0, core_rsp_r=0, cache_rsp_v=1, cache_rsp_r=1, amo_op=02, addr=2000040, gtid=0, wdata=00000000, rdata=00000000, new_data=00000000, sc_succ=0
+                 375: [VX_amo_unit-0] State: AMO_RESPOND, is_amo=0, core_req_v=0, core_req_r=0, cache_req_v=0, cache_req_r=1, core_rsp_v=1, core_rsp_r=1, cache_rsp_v=0, cache_rsp_r=0, amo_op=02, addr=2000040, gtid=0, wdata=00000000, rdata=0000002a, new_data=0000002a, sc_succ=1
+                 377: cluster0-socket0-dcache0 core-rd-rsp[0]: tag=0x0, data=0x0000002a (#3)
+                 379: cluster0-socket0-core0-execute-lsu0-memsched core-rsp: valid=1, sop=1, eop=1, data={0x2a}, tag=0x68000000c8ee0 (#3)
+                 379: cluster0-socket0-core0-execute-lsu0-memsched mem-rsp: valid=1, data={0x2a}, ibuf_idx=0, batch_idx=0 (#3)
+                 379: cluster0-socket0-core0-execute-lsu0 Rsp: wid=0, PC=0x8000000c, tmask=1, rd=7, pid=0, sop=1, eop=1, data={0x2a}, tag=0x68000000c8ee0 (#3)
+                 385: cluster0-socket0-core0-commit: wid=0, sid=0, PC=0x8000000c, ex=LSU, tmask=1, wb=1, rd=7, sop=1, eop=1, data={0xf5fcad2c} (#3)
+[200265] %Error: VX_schedule.sv:415: Assertion failed in TOP.rtlsim_shim.vortex.g_clusters[0].cluster.g_sockets[0].socket.g_cores[0].core.schedule:               200265: *** cluster0-socket0-core0-schedule timeout: stalled_warps=01
+%Error: /home/vaibhav/VORTEX_GPU_microArch/vortex/hw/rtl/core/VX_schedule.sv:415: Verilog $stop
+Aborting...

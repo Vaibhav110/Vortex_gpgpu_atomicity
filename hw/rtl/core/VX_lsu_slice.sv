@@ -194,7 +194,8 @@ module VX_lsu_slice import VX_gpu_pkg::*; #(
                            && ~fence_lock;
 
     assign mem_req_mask = execute_if.data.tmask;
-    assign mem_req_rw = execute_if.data.op_args.lsu.is_store;
+    // assign mem_req_rw = execute_if.data.op_args.lsu.is_store;
+    assign mem_req_rw = execute_if.data.op_args.lsu.is_store && !inst_lsu_is_amo(execute_if.data.op_type);
 
     // address formatting
 
@@ -490,6 +491,13 @@ module VX_lsu_slice import VX_gpu_pkg::*; #(
         wire [7:0]  rsp_data8  = rsp_align[i][0] ? rsp_data16[15:8] : rsp_data16[7:0];
 
         always @(*) begin
+            // NEW: Handle AMOs explicitly or map them to Word format
+            if (inst_lsu_is_amo(rsp_op_type)) begin
+                // AMOs (LR/SC/RMW) work on Words (32-bit) in this config
+                // Note: For 64-bit AMOs (AMO.D), you would need to check wsize
+                rsp_data[i] = `XLEN'(signed'(rsp_data32)); 
+            end else begin
+                // Standard Loads
             case (inst_lsu_fmt(rsp_op_type))
             LSU_FMT_B:  rsp_data[i] = `XLEN'(signed'(rsp_data8));
             LSU_FMT_H:  rsp_data[i] = `XLEN'(signed'(rsp_data16));
@@ -504,6 +512,7 @@ module VX_lsu_slice import VX_gpu_pkg::*; #(
         `endif
             default: rsp_data[i] = 'x;
             endcase
+        end
         end
     end
 
